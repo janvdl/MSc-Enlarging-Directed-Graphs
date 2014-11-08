@@ -1,6 +1,3 @@
-from generator import get_graph, get_random_seq
-from tarjan import entry_tarjan
-
 cycles          = []    #all cycles of nodes
 picked_cycles   = []
 contained_nodes = []
@@ -9,50 +6,26 @@ spill_nodes     = []
 def min_cycles(cycles_):
     global cycles, picked_cycles, spill_nodes
     cycles = cycles_
-    picked_cycles = []
-    contained_nodes = []
-    spill_nodes = []
+    picked_cycles = cycles[:]
 
-    while len(cycles) > 0:
-        max_len = max(len(c) for c in cycles)
-        for c in cycles:
-            if len(c) == max_len:
-                picked_cycles.append(c)
-                for n in c:
-                    if n not in contained_nodes:
-                        contained_nodes.append(n)
-                break
-
-        for c in cycles[:]:
-            for n in contained_nodes:
-                if n in c:
-                    cycles.remove(c)
-                    break
+    for cycle1 in cycles_[:]:
+        for cycle2 in cycles_[:]:
+            if cycle1 != cycle2 and (set(cycle2)).issubset(set(cycle1)):
+                if cycle2 in picked_cycles:
+                    picked_cycles.remove(cycle2)
 
     return picked_cycles
 
 def small_cycles(cycles_):
     global cycles, picked_cycles, spill_nodes
     cycles = cycles_
-    picked_cycles = []
-    contained_nodes = []
-    spill_nodes = []
+    picked_cycles = cycles[:]
 
-    while len(cycles) > 0:
-        min_len = min(len(c) for c in cycles)
-        for c in cycles:
-            if len(c) == min_len:
-                picked_cycles.append(c)
-                for n in c:
-                    if n not in contained_nodes:
-                        contained_nodes.append(n)
-                break
-
-        for c in cycles[:]:
-            for n in contained_nodes:
-                if n in c:
-                    cycles.remove(c)
-                    break
+    for cycle1 in cycles_[:]:
+        for cycle2 in cycles_[:]:
+            if cycle1 != cycle2 and (set(cycle2)).issuperset(set(cycle1)):
+                if cycle2 in picked_cycles:
+                    picked_cycles.remove(cycle2)
 
     return picked_cycles
 

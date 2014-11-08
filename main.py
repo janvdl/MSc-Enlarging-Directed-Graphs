@@ -26,9 +26,9 @@ cycles = entry_tarjan(deepcopy(G))
 print "\n\nCycles:\n", cycles
 
 #Apply cycle picking to the cycles, followed by checking the spill nodes after either min_cycles or small_cycles
-#print 'Large cycles:', min_cycles(cycles[:])
+print '\n\nLarge cycles:\n', min_cycles(deepcopy(cycles))
 #print 'Spill nodes:', find_spill_nodes(seq[:])
-#print 'Small cycles:', small_cycles(cycles[:])
+print '\n\nSmall cycles:\n', small_cycles(deepcopy(cycles))
 #print 'Spill nodes:', find_spill_nodes(seq[:])
 
 #Use the sequence to generate graphviz syntax for visualisation purposes
@@ -36,7 +36,7 @@ print "\n\nCycles:\n", cycles
 #print get_graphviz_names(seq[:])
 
 #Apply Sanders's first pass algorithm
-newGraph = SandersFirst(G, seq, small_cycles(cycles[:]), isolated_nodes, charity_nodes, greedy_nodes)
+newGraph = SandersFirst(G, seq, cycles[:], isolated_nodes, charity_nodes, greedy_nodes)
 print "\n\nGraph after 1st pass:\n", newGraph
 #print get_graphviz_from_graph(newGraph)
 
