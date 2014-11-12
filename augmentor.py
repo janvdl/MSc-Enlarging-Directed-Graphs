@@ -1,6 +1,7 @@
 from random import randint
 from tarjan import entry_tarjan
 from copy import deepcopy
+from graphviz import get_graphviz_names_from_graph
 
 def SandersFirst(G, seq, cycles, dis, no_in, no_out):
     newGraph = G[:]
