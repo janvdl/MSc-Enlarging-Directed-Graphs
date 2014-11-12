@@ -6,8 +6,8 @@ from augmentor import SandersFirst, SandersSecond
 from copy import deepcopy
 
 #Generate a random graph or specify it
-seq = get_random_seq(8)
-#seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
+#seq = get_random_seq(8)
+seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
 print "Original sequence:\n", seq
 G = get_graph(seq)
 print "\n\nOriginal graph:\n", G
