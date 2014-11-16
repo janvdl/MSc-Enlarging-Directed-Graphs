@@ -16,10 +16,10 @@ def tarjan(s, v):
     for w in G[v]:
         if w<s:
             G[w] = 0
-        elif w==s:
+        elif w == s:
             cycles.append(list(deepcopy(point_stack)))
             f = True
-        elif not marked[w]:
+        elif marked[w] == False:
             g = tarjan(s,w)
             f = f or g
             
