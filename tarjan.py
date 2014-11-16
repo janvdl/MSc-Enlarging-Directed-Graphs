@@ -1,50 +1,51 @@
+#The source code given below is a modified version of the implementation by Johannes Schauer.
+#https://github.com/josch/cycles_tarjan/blob/master/cycles.py
+
+from copy import deepcopy
+
 G = []
-N = 0
 cycles = []
-points = []
-marked_stack = []
-marked = []
 
-g = None
-def tarjan(s, v, f):
-    global g
-    points.append(v)
-    marked_stack.append(v)
+point_stack = list()
+marked = dict()
+marked_stack = list()
+
+def tarjan(s, v):
+    global cycles
+    f = False
+    point_stack.append(v)
     marked[v] = True
-
-    for w in G[v][:]:
-        if w < s:
-            G[v].pop(G[v].index(w))
-        elif w == s:
-            cycles.append(points[:])
+    marked_stack.append(v)
+    for w in G[v]:
+        if w<s:
+            G[w] = 0
+        elif w==s:
+            cycles.append(list(deepcopy(point_stack)))
             f = True
-        elif marked[w] == False:
-            if f == g and f == False:
-                f = False
-            else:
-                f = True
-            tarjan(s, w, g)
-
-    g = f
+        elif not marked[w]:
+            f = tarjan(s,w) or f
+            
     if f == True:
-        u = marked_stack.pop()
-        while (u != v):
-            marked[u] = False
+        while marked_stack[-1] != v:
             u = marked_stack.pop()
-        marked[u] = False
-    points.pop(points.index(v))
-
+            marked[u] = False
+        marked_stack.pop()
+        marked[v] = False
+        
+    point_stack.pop()
+    return f
+        
 def entry_tarjan(G_):
-    global G, N, marked, points
-    G = G_
-    N = len(G_)
-    marked = [False for x in xrange(0,N)]
-    for i in xrange(0,N):
+    global G, cycles
+    G = deepcopy(G_)
+
+    for i in range(len(G)):
         marked[i] = False
-    for i in xrange(0,N):
-        points = []
-        tarjan(i,i, False)
-        while (len(marked_stack) > 0):
+    
+    for i in range(len(G)):
+        tarjan(i, i)
+        while marked_stack:
             u = marked_stack.pop()
             marked[u] = False
+    
     return cycles

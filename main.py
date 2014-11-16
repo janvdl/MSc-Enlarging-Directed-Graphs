@@ -6,8 +6,9 @@ from augmentor import SandersFirst, SandersSecond
 from copy import deepcopy
 
 #Generate a random graph or specify it
-#seq = get_random_seq(8)
-seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
+seq = get_random_seq(8)
+seq.append([5,12])
+#seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
 print "Original sequence:\n", seq
 G = get_graph(seq)
 print "\n\nOriginal graph:\n", G
@@ -36,20 +37,22 @@ print '\n\nSmall cycles:\n', small_cycles(deepcopy(cycles))
 print '\n\nGraphviz:\n', get_graphviz_names(seq[:])
 
 #Apply Sanders's first pass algorithm
-newGraph = SandersFirst(G, seq, cycles[:], isolated_nodes, charity_nodes, greedy_nodes)
+newGraph = SandersFirst(deepcopy(G), seq, cycles[:], isolated_nodes, charity_nodes, greedy_nodes)
 print "\n\nGraph after 1st pass:\n", newGraph
+print get_graphviz_names_from_graph(newGraph, seq)
 #print get_graphviz_from_graph(newGraph)
 
 #Before applying Sanders's second pass algorithm, find out which nodes are not in cycles after first pass
 new_cycles = sum(entry_tarjan(deepcopy(newGraph)), [])
+print "\n\nNew cycles:\n", entry_tarjan(deepcopy(newGraph))
 new_nodes = list(xrange(0, len(newGraph)))
 no_cycles = list(set(new_nodes) - set(new_cycles))
 print "\n\nNodes not in cycles:\n", no_cycles
 
 #Apply Sanders's second pass algorithm
-newGraph2 = SandersSecond(newGraph, seq, no_cycles)
+newGraph2 = SandersSecond(deepcopy(newGraph), seq, no_cycles)
 print "\n\nGraph after 2nd pass:\n", newGraph2
-print get_graphviz_names_from_graph(newGraph, seq)
+print get_graphviz_names_from_graph(newGraph2, seq)
 
 #Confirm there are no more nodes which are outside of cycles
 new_cycles = sum(entry_tarjan(deepcopy(newGraph2)), [])

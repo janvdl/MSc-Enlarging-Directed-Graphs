@@ -11,7 +11,7 @@ numbers = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9',
             'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25']
 
 def get_graphviz_names(seq):
-    names = names_za
+    names = names_us
     number_of_nodes = len(seq)
     s = 'digraph G {size="5"; center=true;{'
     for i in range(0, number_of_nodes):
@@ -47,7 +47,7 @@ def get_graphviz_from_graph(G):
     return s
     
 def get_graphviz_names_from_graph(G, seq):
-    names = names_za
+    names = names_us
     s = 'digraph G {size="5"; center=true;{'
     for i in xrange(0, len(G)):
         s = s + '"' + str(i + 1) + ": " + names[i] + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']";\n'
