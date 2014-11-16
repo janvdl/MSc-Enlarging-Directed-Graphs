@@ -1,14 +1,11 @@
-#The source code given below is a modified version of the implementation by Johannes Schauer.
-#https://github.com/josch/cycles_tarjan/blob/master/cycles.py
-
 from copy import deepcopy
 
 G = []
 cycles = []
 
-point_stack = list()
-marked = dict()
-marked_stack = list()
+point_stack = []
+marked = []
+marked_stack = []
 
 def tarjan(s, v):
     global cycles
@@ -23,10 +20,11 @@ def tarjan(s, v):
             cycles.append(list(deepcopy(point_stack)))
             f = True
         elif not marked[w]:
-            f = tarjan(s,w) or f
+            g = tarjan(s,w)
+            f = f or g
             
     if f == True:
-        while marked_stack[-1] != v:
+        while marked_stack[len(marked_stack) - 1] != v:
             u = marked_stack.pop()
             marked[u] = False
         marked_stack.pop()
@@ -36,11 +34,10 @@ def tarjan(s, v):
     return f
         
 def entry_tarjan(G_):
-    global G, cycles
+    global G, cycles, marked
     G = deepcopy(G_)
 
-    for i in range(len(G)):
-        marked[i] = False
+    marked = [False for x in xrange(0, len(G_))]
     
     for i in range(len(G)):
         tarjan(i, i)
@@ -49,3 +46,5 @@ def entry_tarjan(G_):
             marked[u] = False
     
     return cycles
+    
+print entry_tarjan([[1, 9], [3, 5], [3, 5], [2], [2], [4, 6], [8], [10], [0], [7], [1]]);
