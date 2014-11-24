@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 components = []
 visited = []
 
@@ -13,14 +15,22 @@ def dfs(G, v):
             component.append(u)
             for w in G[u]:
                 S.append(w)
-    
+                
     components.append(component)
         
 def hopcroft(G):
     global visited
-    visited = [False for x in xrange(len(G))]
     for i in xrange(0, len(G)):
+        visited = [False for x in xrange(len(G))]
         if visited[i] == False:
             dfs(G, i)
-    
+
+    comp_ = deepcopy(components)
+            
+    for i in xrange(0, len(comp_)):
+        for j in xrange(0, len(comp_)):
+            if i > j and (set(comp_[i]) >= set(comp_[j])):
+                if comp_[j] in components:
+                    components.remove(comp_[j])
+        
     return components
