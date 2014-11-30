@@ -2,7 +2,7 @@ from generator import get_graph, get_random_seq
 from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph
 from tarjan import entry_tarjan
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_isogreedy_nodes, find_greedy_nodes, find_isocharity_nodes, find_charity_nodes, find_isolated_nodes
-from augmentor_cost import augment
+from augmentor_cost import augment, SandersSecond
 from copy import deepcopy
 
 #Generate a random graph or specify it
@@ -40,5 +40,16 @@ print get_graphviz_names_from_graph(newGraph, seq)
 new_cycles = sum(entry_tarjan(deepcopy(newGraph)), [])
 print "\n\nNew cycles:\n", entry_tarjan(deepcopy(newGraph))
 new_nodes = list(xrange(0, len(newGraph)))
+no_cycles = list(set(new_nodes) - set(new_cycles))
+print "\n\nNodes not in cycles:\n", no_cycles
+
+#Apply Sanders's second pass algorithm
+newGraph2 = SandersSecond(deepcopy(newGraph), seq, no_cycles)
+print "\n\nGraph after 2nd pass:\n", newGraph2
+print get_graphviz_names_from_graph(newGraph2, seq)
+
+#Confirm there are no more nodes which are outside of cycles
+new_cycles = sum(entry_tarjan(deepcopy(newGraph2)), [])
+new_nodes = list(xrange(0, len(newGraph2)))
 no_cycles = list(set(new_nodes) - set(new_cycles))
 print "\n\nNodes not in cycles:\n", no_cycles

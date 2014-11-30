@@ -145,6 +145,44 @@ def augment(G, seq, cycles, dis, no_in, no_out):
     #print "no_in, no_out, dis", no_in, no_out, dis
     return newGraph
     
+def SandersSecond(G, seq, no_cycles):
+    newGraph = G[:]
+    while len(no_cycles) > 0:
+        x = no_cycles[0]
+        B = x
+        E = None
+        while (B in no_cycles):
+            for adjacency in newGraph[B]:
+                if adjacency not in no_cycles:
+                    B = adjacency
+                    break
+            break
+        
+        for i in xrange(0, len(newGraph)):
+            if x in newGraph[i]:
+                E = i
+        
+        while (E in no_cycles):
+            for i in xrange(0, len(newGraph)):
+                if newGraph[i] == E and newGraph[i] not in no_cycles:
+                    E = newGraph[i]
+                    break
+            break
+        
+        D = [seq[E][1], seq[B][0]]
+        seq.append(D)
+        D_nodenumber = len(newGraph)
+        newGraph.append([])
+        newGraph[B].append(D_nodenumber)
+        newGraph[D_nodenumber].append(E)
+        no_cycles.pop(0)
+        
+        new_cycles = sum(entry_tarjan(deepcopy(newGraph)), [])
+        new_nodes = list(xrange(0, len(newGraph)))
+        no_cycles = list(set(new_nodes) - set(new_cycles))
+    
+    return newGraph
+    
 def findParentComponent(node, components):
     for component in components:
         if node in component:
