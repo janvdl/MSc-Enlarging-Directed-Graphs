@@ -14,6 +14,7 @@ seq.append([1,2])
 #print "Original sequence:\n", seq
 G = get_graph(seq)
 print "\n\nOriginal graph:\n", G
+print get_graphviz_names_from_graph(G, seq)
 
 #Find the greedy, charity, and isolated nodes
 greedy_nodes = find_greedy_nodes(G)
@@ -25,3 +26,10 @@ cycles = entry_tarjan(deepcopy(G))
 #print "\n\nCycles:\n", cycles
 
 augment(G, seq)
+print "Final graph:", G
+print get_graphviz_names_from_graph(G, seq)
+    
+cycles = sum(entry_tarjan(deepcopy(G)), [])
+nodes = list(xrange(0, len(G)))
+no_cycles = list(set(nodes) - set(cycles))
+print "Nodes not in cycles:", no_cycles
