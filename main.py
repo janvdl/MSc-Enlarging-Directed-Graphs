@@ -50,9 +50,9 @@ for i in xrange(8, 24, 2):
     #no_cycles = list(set(new_nodes) - set(new_cycles))
     #print "\n\nNodes not in cycles:\n", no_cycles
 
-    print "\n================="
+    print "\n=================Sanders================="
     print "Number of nodes: ", graph_size
-    print "Sanders's original: ", time.time() - start_time, "seconds"
+    print "Time: ", time.time() - start_time, "seconds"
     print "Dummy nodes added:", len(newGraph2) - graph_size
-    print "================="
+    print "=================END================="
     #print get_graphviz_names_from_graph(newGraph2, seq)
