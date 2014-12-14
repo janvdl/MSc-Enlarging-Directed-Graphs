@@ -194,7 +194,6 @@ def augment(G, seq):
     no_cycles = list(set(nodes) - set(cycles))
 
     while len(no_cycles) > 0:
-        print no_cycles
         x = no_cycles[0]
         B = x
         E = None
@@ -227,7 +226,6 @@ def augment(G, seq):
         cycles = sum(entry_tarjan(deepcopy(G)), [])
         nodes = list(xrange(0, len(G)))
         no_cycles = list(set(nodes) - set(cycles))
-        print no_cycles
 
     return G
 
