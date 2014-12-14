@@ -6,17 +6,19 @@ visited = []
 def dfs(G, v):
     S = []
     component = []
+    nodes_in_components = sum(components, [])
     
-    S.append(v)
-    while (len(S) > 0):
-        u = S.pop()
-        if visited[u] == False:
-            visited[u] = True
-            component.append(u)
-            for w in G[u]:
-                S.append(w)
-                
-    components.append(component)
+    if v not in nodes_in_components:
+        S.append(v)
+        while (len(S) > 0):
+            u = S.pop()
+            if visited[u] == False:
+                visited[u] = True
+                component.append(u)
+                for w in G[u]:
+                    S.append(w)
+                    
+        components.append(component)
         
 def hopcroft(G):
     global visited

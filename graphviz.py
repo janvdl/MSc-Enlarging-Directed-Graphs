@@ -1,5 +1,5 @@
 names_us = ['Adam', 'Bob', 'Carol', 'David', 'Eddie', 'Frank', 'George', 'Harry',
-         'Ike', 'Jim', 'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Kenny', 'Larry', 'Mary', 'Nancy', 'Oliver', 'Peter',
+         'Ike', 'Jim', 'Kenny', 'Larry', 'Mary', 'Nancy', 'Oliver', 'Peter',
          'Quincy', 'Roger', 'Sam', 'Thomas', 'Uwe', 'Vincent', 'William',
          'Xavier', 'Yogi', 'Zachary']
 names_za = ['Monde', 'John', 'Hendrik', 'Kefentse', 'David', 'Yoosuf', 'Kopano', 'Mark',
@@ -9,6 +9,8 @@ names_za = ['Monde', 'John', 'Hendrik', 'Kefentse', 'David', 'Yoosuf', 'Kopano',
 numbers = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9',
             'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17',
             'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25']
+            
+#            'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy',
 
 def get_graphviz_names(seq):
     names = names_us
@@ -24,7 +26,6 @@ def get_graphviz_names(seq):
     return s
 
 def get_graphviz(seq):
-    names = numbers
     number_of_nodes = len(seq)
     s = 'digraph G {'
     for i in range(0, number_of_nodes):
