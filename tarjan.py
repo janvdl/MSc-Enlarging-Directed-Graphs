@@ -15,7 +15,7 @@ def tarjan(s, v):
     marked_stack.append(v)
     for w in G[v]:
         if w < s:
-            G[w] = 0
+            G[w] = []
         elif w == s:
             points_keeper = list(deepcopy(point_stack))
             if points_keeper not in cycles:

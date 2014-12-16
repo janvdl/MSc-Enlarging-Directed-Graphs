@@ -3,7 +3,8 @@ from hopcroft import hopcroft
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_isogreedy_nodes, find_greedy_nodes, find_isocharity_nodes, find_charity_nodes, find_isolated_nodes
 from copy import deepcopy
 
-def augment(G, seq):
+def augment(G, seq, cycles):
+    cycleNodesKeeper = sum(cycles, [])
     while (situation_matrix(G) != [0, 0, 0, 0]):
         components = hopcroft(G)
         for component in components:
@@ -66,7 +67,13 @@ def augment(G, seq):
                 greedy_node = greedy_component.pop()
                 greedy_seq = seq[greedy_node]
 
-                some_node = list(set(component) - (set(greedy_component) | set([greedy_node])))[0]
+                some_nodes = (set(component) - (set(greedy_component) | set([greedy_node])))
+                combined = list(set(cycleNodesKeeper) & some_nodes)
+
+                if len(combined) > 0:
+                    some_node = combined[0]
+                else:
+                    some_node = some_nodes[0]
                 some_seq = seq[some_node]
 
                 dummy = [some_seq[1], greedy_seq[0]]
@@ -82,7 +89,13 @@ def augment(G, seq):
                 charity_node = charity_component.pop()
                 charity_seq = seq[charity_node]
 
-                some_node = list(set(component) - (set(charity_component) | set([charity_node])))[0]
+                some_nodes = (set(component) - (set(charity_component) | set([charity_node])))
+                combined = list(set(cycleNodesKeeper) & some_nodes)
+
+                if len(combined) > 0:
+                    some_node = combined[0]
+                else:
+                    some_node = some_nodes[0]
                 some_seq = seq[some_node]
 
                 dummy = [charity_seq[1], some_seq[0]]
@@ -101,7 +114,13 @@ def augment(G, seq):
                 greedy_node = greedy_component.pop()
                 greedy_seq = seq[greedy_node]
 
-                some_node = list(set(component) - (set(greedy_component) | set(isolated_component) | set([greedy_node]) | set([iso_node])))[0]
+                some_nodes = (set(component) - (set(greedy_component) | set(isolated_component) | set([greedy_node]) | set([iso_node])))
+                combined = list(set(cycleNodesKeeper) & some_nodes)
+
+                if len(combined) > 0:
+                    some_node = combined[0]
+                else:
+                    some_node = some_nodes[0]
                 some_seq = seq[some_node]
 
                 dummy1 = [iso_seq[1], greedy_seq[0]]
@@ -127,7 +146,13 @@ def augment(G, seq):
                 charity_node = charity_component.pop()
                 charity_seq = seq[charity_node]
 
-                some_node = list(set(component) - (set(charity_component) | set(isolated_component) | set([charity_node]) | set([iso_node])))[0]
+                some_nodes = set(component) - (set(charity_component) | set(isolated_component) | set([charity_node]) | set([iso_node]))
+                combined = list(set(cycleNodesKeeper) & some_nodes)
+
+                if len(combined) > 0:
+                    some_node = combined[0]
+                else:
+                    some_node = some_nodes[0]
                 some_seq = seq[some_node]
 
                 dummy1 = [iso_seq[1], some_seq[0]]

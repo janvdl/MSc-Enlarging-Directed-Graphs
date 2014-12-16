@@ -6,11 +6,11 @@ from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_isogree
 from augmentor_jvdl import augment
 from copy import deepcopy
 
-#for i in xrange(12, 24, 2):
+#for i in xrange(8, 10, 2):
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 10
+graph_size = 22
 seq = get_random_seq(graph_size)
 #seq.append([5,12])
 #seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
@@ -29,16 +29,17 @@ G = get_graph(seq)
 
 #Find the cycles in the graph
 #print "Finding Cycles"
-#cycles = entry_tarjan(deepcopy(G))
+cycles = entry_tarjan(deepcopy(G))
 #print "\n\nCycles:\n", cycles
 
 #print "Augmenting 1"
-augment(G, seq)
+augment(G, seq, cycles)
 #print "Final graph:", G
 #print get_graphviz_names_from_graph(G, seq)
 
 print "\n=================JvdL================="
 print "Number of nodes: ", graph_size
+#print "Number of cycles: ", len(cycles)
 print "Time: ", time.time() - start_time, "seconds"
 print "Dummy nodes added:", len(G) - graph_size
 print "=================END================="

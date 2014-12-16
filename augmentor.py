@@ -25,6 +25,8 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
         if mid != None:
             if first == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
+                if last in availableNodes:
+                    availableNodes.remove(last)
                 if len(availableNodes) > 0:
                     first = availableNodes[0]
                     usedNodes.append(first)
@@ -33,6 +35,8 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
                     first = cycleNodes[randint(0, len(cycleNodes))]
             if last == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
+                if first in availableNodes:
+                    availableNodes.remove(first)
                 if len(availableNodes) > 0:
                     last = availableNodes[0]
                     usedNodes.append(last)
@@ -54,9 +58,12 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
             newGraph[dummy1_nodenumber].append(mid)
             newGraph[mid].append(dummy2_nodenumber)
             newGraph[dummy2_nodenumber].append(last)
+            #print first, mid, last, " & dummies:", dummy1_nodenumber, dummy2_nodenumber
         else:
             if first == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
+                if last in availableNodes:
+                    availableNodes.remove(last)
                 if len(availableNodes) > 0:
                     first = availableNodes[0]
                     usedNodes.append(first)
@@ -64,6 +71,8 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
                     first = cycleNodes[randint(0, len(cycleNodes))]
             if last == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
+                if first in availableNodes:
+                    availableNodes.remove(first)
                 if len(availableNodes) > 0:
                     last = availableNodes[0]
                     usedNodes.append(last)
@@ -80,7 +89,7 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
             newGraph.append([]) #append a placeholder
             newGraph[first].append(dummy3_nodenumber)
             newGraph[dummy3_nodenumber].append(last)
-
+            #print first, mid, last, " & dummy:", dummy3_nodenumber
         no_out = find_greedy_nodes(newGraph)
         no_in = find_charity_nodes(newGraph)
         dis = find_isolated_nodes(newGraph)
@@ -117,5 +126,7 @@ def SandersSecond(G, seq, no_cycles):
         newGraph[B].append(D_nodenumber)
         newGraph[D_nodenumber].append(E)
         no_cycles.pop(0)
+
+        #print "Second pass:", B, D_nodenumber, E
 
     return newGraph

@@ -1,7 +1,7 @@
 names_us = ['Adam', 'Bob', 'Carol', 'David', 'Eddie', 'Frank', 'George', 'Harry',
          'Ike', 'Jim', 'Kenny', 'Larry', 'Mary', 'Nancy', 'Oliver', 'Peter',
          'Quincy', 'Roger', 'Sam', 'Thomas', 'Uwe', 'Vincent', 'William',
-         'Xavier', 'Yogi', 'Zachary']
+         'Xavier', 'Yogi', 'Zachary', 'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy',' Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy']
 names_za = ['Monde', 'John', 'Hendrik', 'Kefentse', 'David', 'Yoosuf', 'Kopano', 'Mark',
          'Maheshini', 'Ian', 'Sipho', 'Thabo', 'Mary', 'Nancy', 'Oliver', 'Peter',
          'Quinton', 'Roger', 'Sam', 'Thomas', 'Uwe', 'Vincent', 'William',
@@ -9,7 +9,7 @@ names_za = ['Monde', 'John', 'Hendrik', 'Kefentse', 'David', 'Yoosuf', 'Kopano',
 numbers = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9',
             'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17',
             'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25']
-            
+
 #            'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy',
 
 def get_graphviz_names(seq):
@@ -35,18 +35,18 @@ def get_graphviz(seq):
                     s = s + 'v' + str(i) + '->' + 'v' + str(j) + ';'
     s = s + '}'
     return s
-    
+
 def get_graphviz_from_graph(G):
     s = 'digraph G {'
     for i in xrange(0, len(G)):
         s = s + 'v' + str(i) + ';'
-        if len(G[i]) > 0:   
+        if len(G[i]) > 0:
             for j in G[i]:
-                s = s + 'v' + str(i) + '->' + 'v' + str(j) + ';'    
+                s = s + 'v' + str(i) + '->' + 'v' + str(j) + ';'
     s = s + '}'
-    
+
     return s
-    
+
 def get_graphviz_names_from_graph(G, seq):
     names = names_us
     s = 'digraph G {size="5"; center=true;{'
