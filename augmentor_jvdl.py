@@ -1,25 +1,20 @@
 from tarjan import entry_tarjan
 from hopcroft import hopcroft
-from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_isogreedy_nodes, find_greedy_nodes, find_isocharity_nodes, find_charity_nodes, find_isolated_nodes
+from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes
 from copy import deepcopy
 
 def augment(G, seq, cycles):
     cycleNodesKeeper = sum(cycles, [])
-    while (situation_matrix(G) != [0, 0, 0, 0]):
+    while (situation_matrix(find_all_types_nodes(G)) != [0, 0, 0, 0]):
         components = hopcroft(G)
         for component in components:
             #Update the situation matrix after every component has been updated
-            #It's possible that some isolated nodes were already taken care of, etc.
-            matrix = situation_matrix(G)
-
-            greedy_nodes = find_greedy_nodes(G)
-            charity_nodes = find_charity_nodes(G)
-            isolated_nodes = find_isolated_nodes(G)
-
-#            cycles = sum(entry_tarjan(deepcopy(G)), [])
-#            nodes = list(xrange(0, len(G)))
-#            no_cycles = list(set(nodes) - set(cycles))
-#            #print "Current component:", component
+            #It's possible that some isolated nodes were already taken care of, etc.            
+            CGI_nodes = find_all_types_nodes(G)
+            greedy_nodes = CGI_nodes[1]
+            charity_nodes = CGI_nodes[0]
+            isolated_nodes = CGI_nodes[2]
+            matrix = situation_matrix(CGI_nodes)
 
             component_matrix = [0, 0, 0, 0]
 
@@ -73,7 +68,7 @@ def augment(G, seq, cycles):
                 if len(combined) > 0:
                     some_node = combined[0]
                 else:
-                    some_node = some_nodes[0]
+                    some_node = list(some_nodes)[0]
                 some_seq = seq[some_node]
 
                 dummy = [some_seq[1], greedy_seq[0]]
@@ -95,7 +90,7 @@ def augment(G, seq, cycles):
                 if len(combined) > 0:
                     some_node = combined[0]
                 else:
-                    some_node = some_nodes[0]
+                    some_node = list(some_nodes)[0]
                 some_seq = seq[some_node]
 
                 dummy = [charity_seq[1], some_seq[0]]
@@ -120,7 +115,7 @@ def augment(G, seq, cycles):
                 if len(combined) > 0:
                     some_node = combined[0]
                 else:
-                    some_node = some_nodes[0]
+                    some_node = list(some_nodes)[0]
                 some_seq = seq[some_node]
 
                 dummy1 = [iso_seq[1], greedy_seq[0]]
@@ -152,7 +147,7 @@ def augment(G, seq, cycles):
                 if len(combined) > 0:
                     some_node = combined[0]
                 else:
-                    some_node = some_nodes[0]
+                    some_node = list(some_nodes)[0]
                 some_seq = seq[some_node]
 
                 dummy1 = [iso_seq[1], some_seq[0]]
@@ -254,12 +249,11 @@ def augment(G, seq, cycles):
 
     return G
 
-def situation_matrix(G):
+def situation_matrix(CGI_nodes):
     #return matrix [C G I N] -> charity, greedy, isolated, no cycle
-
-    greedy_nodes = find_greedy_nodes(G)
-    charity_nodes = find_charity_nodes(G)
-    isolated_nodes = find_isolated_nodes(G)
+    greedy_nodes = CGI_nodes[1]
+    charity_nodes = CGI_nodes[0]
+    isolated_nodes = CGI_nodes[2]
 
 #    cycles = sum(entry_tarjan(deepcopy(G)), [])
 #    nodes = list(xrange(0, len(G)))

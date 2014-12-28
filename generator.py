@@ -16,13 +16,13 @@ def get_shoe_pair():
     #Add +-2 for standard deviation
     sd = 0
     while sd == 0:
-        sd = randint(sd_min,sd_max);
+        sd = randint(sd_min,sd_max)
     left = randint(avg_min,avg_max) + sd
 
     #Make the right foot bigger/smaller than the left by 1-2 sizes
     sd = 0
     while sd == 0:
-        sd = randint(sd_min,sd_max);
+        sd = randint(sd_min,sd_max)
     right = left + sd
 
     return [left, right]

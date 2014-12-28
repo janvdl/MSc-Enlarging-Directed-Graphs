@@ -2,7 +2,7 @@ import time
 from generator import get_graph, get_random_seq
 from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph
 from tarjan import entry_tarjan
-from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_isogreedy_nodes, find_greedy_nodes, find_isocharity_nodes, find_charity_nodes, find_isolated_nodes
+from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes
 from augmentor import SandersFirst, SandersSecond
 from copy import deepcopy
 
@@ -15,9 +15,13 @@ seq = get_random_seq(graph_size)
 G = get_graph(seq)
 
 #print "Finding CGI"
-greedy_nodes = find_greedy_nodes(G)
-charity_nodes = find_charity_nodes(G)
-isolated_nodes = find_isolated_nodes(G)
+CGI = find_all_types_nodes(G)
+greedy_nodes = CGI[1]
+charity_nodes = CGI[0]
+isolated_nodes = CGI[2]
+# greedy_nodes = find_greedy_nodes(G)
+# charity_nodes = find_charity_nodes(G)
+# isolated_nodes = find_isolated_nodes(G)
 
 #Find the cycles in the graph
 #print "Finding cycles"

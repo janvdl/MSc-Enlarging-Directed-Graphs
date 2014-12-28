@@ -78,3 +78,18 @@ def find_isolated_nodes(G_):
             isolated_nodes.append(node)
             
     return isolated_nodes
+
+# Runs in O(n^2)
+def find_all_types_nodes(G_):
+    isolated_nodes = []
+    temp_greedy = find_isogreedy_nodes(G_)
+    temp_charity = find_isocharity_nodes(G_) # This is O(n^2)
+
+    for node in temp_greedy:
+        if node in temp_charity:
+            isolated_nodes.append(node)
+
+    greedy_nodes = list(set(temp_greedy) - set(isolated_nodes))
+    charity_nodes = list(set(temp_charity) - set(isolated_nodes))
+
+    return [charity_nodes, greedy_nodes, isolated_nodes]

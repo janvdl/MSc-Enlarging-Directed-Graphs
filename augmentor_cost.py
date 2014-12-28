@@ -3,7 +3,7 @@ from tarjan import entry_tarjan
 from copy import deepcopy
 from hopcroft import hopcroft
 from graphviz import get_graphviz_names_from_graph
-from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_isogreedy_nodes, find_greedy_nodes, find_isocharity_nodes, find_charity_nodes, find_isolated_nodes
+from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes
 
 def augment(G, seq, cycles, dis, no_in, no_out):
     newGraph = G[:]
@@ -178,9 +178,10 @@ def augment(G, seq, cycles, dis, no_in, no_out):
             newGraph[first].append(dummy3_nodenumber)
             newGraph[dummy3_nodenumber].append(last)
             #print first, mid, last, " & dummy:", dummy3_nodenumber
-        no_out = find_greedy_nodes(newGraph)
-        no_in = find_charity_nodes(newGraph)
-        dis = find_isolated_nodes(newGraph)
+        # CGI = find_all_types_nodes(G)
+        # no_out = CGI[1]
+        # no_in = CGI[0]
+        # dis = CGI[2]
     return newGraph
 
 def SandersSecond(G, seq, no_cycles):
@@ -214,11 +215,6 @@ def SandersSecond(G, seq, no_cycles):
         newGraph[B].append(D_nodenumber)
         newGraph[D_nodenumber].append(E)
         no_cycles.pop(0)
-
-        #print "Second pass:", B, D_nodenumber, E
-        #new_cycles = sum(entry_tarjan(deepcopy(newGraph)), [])
-        #new_nodes = list(xrange(0, len(newGraph)))
-        #no_cycles = list(set(new_nodes) - set(new_cycles))
 
     return newGraph
 
