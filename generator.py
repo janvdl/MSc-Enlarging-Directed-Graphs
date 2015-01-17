@@ -1,7 +1,8 @@
 import random
 from random import randint
 #random.seed(123789456)
-random.seed(170888264)
+#random.seed(170888264)
+random.seed(923462908)
 
 number_of_nodes = 0
 avg_min = 9
@@ -44,3 +45,16 @@ def get_graph(seq):
                 if seq[i][0] == seq[j][1]:
                     G[i].append(j)
     return G
+
+def get_matrix(seq):
+    N = len(seq)
+    G = [[0 for x in xrange(N)] for x in xrange(N)]
+    for i in range(0, N):
+        for j in range(0, N):
+            if seq[i] != None and seq[j] != None:
+                if seq[i][0] == seq[j][1]:
+                    G[i][j] = 1
+    return G
+
+# for line in get_matrix(get_random_seq(12)):
+#     print line

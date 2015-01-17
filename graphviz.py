@@ -1,3 +1,5 @@
+from math import *
+
 names_us = ['Adam', 'Bob', 'Carol', 'David', 'Eddie', 'Frank', 'George', 'Harry',
          'Ike', 'Jim', 'Kenny', 'Larry', 'Mary', 'Nancy', 'Oliver', 'Peter',
          'Quincy', 'Roger', 'Sam', 'Thomas', 'Uwe', 'Vincent', 'William',
@@ -47,14 +49,32 @@ def get_graphviz_from_graph(G):
 
     return s
 
-def get_graphviz_names_from_graph(G, seq):
+def get_graphviz_names_from_graph(G, seq, length):
     names = names_us
-    s = 'digraph G {size="5"; center=true;{'
+    # s = 'digraph G {size="5"; center=true;{'
+    s = 'digraph G {center=true;{'
     for i in xrange(0, len(G)):
-        s = s + '"' + str(i + 1) + ": " + names[i] + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']";\n'
+        name_i = names[i]
+        if i >= length:
+            name_i = "Dummy"
+        s = s + '"' + str(i + 1) + ": " + name_i + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']";\n'
         if len(G[i]) > 0:
             for j in G[i]:
-                s = s + '"' + str(i + 1) + ": " + names[i] + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']"' \
-                + '->' + '"' + str(j + 1) + ": " + names[j] + ' [' + str(seq[j][0])+ ',' + str(seq[j][1]) + ']";\n'
+                name_j = names[j]
+                if j >= length:
+                    name_j = "Dummy"
+
+                s = s + '"' + str(i + 1) + ": " + name_i + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']"' \
+                + '->' + '"' + str(j + 1) + ": " + name_j + ' [' + str(seq[j][0])+ ',' + str(seq[j][1]) + ']";\n'
+    #Rank nodes
+    for i in xrange(0, len(G)):
+        name_i = names[i]
+        if i >= length:
+            name_i = "Dummy"
+        if float(i) % 2 == 0:
+            s = s + "{rank=same;" + '"' + str(i + 1) + ": " + name_i + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']";'
+        else:
+            s = s + '"' + str(i + 1) + ": " + name_i + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']"}\n'
+    #END Rank nodes
     s = s + '}}}'
     return s

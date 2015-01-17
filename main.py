@@ -2,7 +2,7 @@ import time
 from generator import get_graph, get_random_seq
 from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph
 from tarjan import entry_tarjan
-from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes
+from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes, count_nodes, count_dummy_nodes_necessary, count_nodes_necessary
 from augmentor import SandersFirst, SandersSecond
 from copy import deepcopy
 
@@ -58,6 +58,15 @@ print "\n=================Sanders================="
 print "Number of nodes: ", graph_size
 #print "Number of cycles: ", len(remove)
 print "Time: ", time.time() - start_time, "seconds"
-print "Dummy nodes added:", len(newGraph2) - graph_size
-print "=================END================="
-#print get_graphviz_names_from_graph(newGraph2, seq)
+print "Dummy nodes needed:", len(newGraph2) - graph_size
+#print newGraph2
+cycles = entry_tarjan(deepcopy(newGraph2))
+# print "Cycles:", cycles
+# print "Picked cycles:", min_cycles(cycles)
+# print small_cycles(cycles)
+print "Dummy nodes needed with repeats:", count_dummy_nodes_necessary(min_cycles(cycles), graph_size)
+# print count_dummy_nodes_necessary(small_cycles(cycles), graph_size)
+# print count_nodes_necessary(min_cycles(cycles))
+# print count_nodes_necessary(small_cycles(cycles))
+print "=================END====================="
+# print get_graphviz_names_from_graph(newGraph2, seq, graph_size)

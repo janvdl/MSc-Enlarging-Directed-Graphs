@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 cycles          = []    #all cycles of nodes
 picked_cycles   = []
 contained_nodes = []
@@ -6,12 +8,15 @@ spill_nodes     = []
 def min_cycles(cycles_):
     global cycles, picked_cycles, spill_nodes
     cycles = cycles_
-    picked_cycles = cycles[:]
+    picked_cycles = deepcopy(cycles)
 
     for cycle1 in cycles_[:]:
         for cycle2 in cycles_[:]:
-            if cycle1 != cycle2 and (set(cycle2)).issubset(set(cycle1)):
+            if sorted(cycle1) != sorted(cycle2) and (set(cycle2)).issubset(set(cycle1)):
                 if cycle2 in picked_cycles:
+                    picked_cycles.remove(cycle2)
+            if sorted(cycle1) == sorted(cycle2):
+                if cycles_.index(cycle1) < cycles_.index(cycle2) and cycle2 in picked_cycles:
                     picked_cycles.remove(cycle2)
 
     return picked_cycles
@@ -19,15 +24,51 @@ def min_cycles(cycles_):
 def small_cycles(cycles_):
     global cycles, picked_cycles, spill_nodes
     cycles = cycles_
-    picked_cycles = cycles[:]
+    picked_cycles = deepcopy(cycles)
 
     for cycle1 in cycles_[:]:
         for cycle2 in cycles_[:]:
-            if cycle1 != cycle2 and (set(cycle2)).issuperset(set(cycle1)):
+            if sorted(cycle1) != sorted(cycle2) and (set(cycle2)).issuperset(set(cycle1)):
                 if cycle2 in picked_cycles:
+                    picked_cycles.remove(cycle2)
+            if sorted(cycle1) == sorted(cycle2):
+                if cycles_.index(cycle1) < cycles_.index(cycle2) and cycle2 in picked_cycles:
                     picked_cycles.remove(cycle2)
 
     return picked_cycles
+
+#This method counts the frequency of nodes
+#Every time a node is found in a cycle, the count is increased
+def count_nodes(cycles_):
+    d = dict()
+
+    for c in cycles_:
+        for node in c:
+            if node in d:
+                d[node] = d[node] + 1
+            else:
+                d[node] = 1
+
+    return d
+
+def count_nodes_necessary(cycles_):
+    d = count_nodes(cycles_)
+    nodes_necessary = 0
+
+    for node in d:
+            nodes_necessary = nodes_necessary + d[node]
+
+    return nodes_necessary
+
+def count_dummy_nodes_necessary(cycles_, graph_size):
+    d = count_nodes(cycles_)
+    dummy_nodes_necessary = 0
+
+    for node in d:
+        if node >= graph_size:
+            dummy_nodes_necessary = dummy_nodes_necessary + d[node]
+
+    return dummy_nodes_necessary
 
 def find_spill_nodes(seq_):
     global spill_nodes, picked_cycles

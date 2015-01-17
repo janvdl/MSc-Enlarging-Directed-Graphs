@@ -1,4 +1,5 @@
 from copy import deepcopy
+from collections import defaultdict
 
 components = []
 visited = []
@@ -17,7 +18,7 @@ def dfs(G, v):
                 component.append(u)
                 for w in G[u]:
                     S.append(w)
-                    
+
         components.append(component)
         
 def hopcroft(G):
@@ -27,12 +28,34 @@ def hopcroft(G):
         if visited[i] == False:
             dfs(G, i)
 
-    comp_ = deepcopy(components)
+    # comp_ = deepcopy(components)
             
-    for i in xrange(0, len(comp_)):
-        for j in xrange(0, len(comp_)):
-            if i > j and (set(comp_[i]) >= set(comp_[j])):
-                if comp_[j] in components:
-                    components.remove(comp_[j])
+    # for i in xrange(0, len(comp_)):
+    #     for j in xrange(0, len(comp_)):
+    #         if i != j and (set(comp_[i]) >= set(comp_[j])):
+    #             if comp_[j] in components:
+    #                 components.remove(comp_[j])
         
-    return components
+    return connected_components(components)
+
+def connected_components(l):
+    out = []
+    while len(l)>0:
+        first, rest = l[0], l[1:]
+        first = set(first)
+
+        lf = -1
+        while len(first)>lf:
+            lf = len(first)
+
+            rest2 = []
+            for r in rest:
+                if len(first.intersection(set(r)))>0:
+                    first |= set(r)
+                else:
+                    rest2.append(r)     
+            rest = rest2
+
+        out.append(list(first))
+        l = rest
+    return out
