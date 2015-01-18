@@ -10,7 +10,7 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 22
+graph_size = 8
 seq = get_random_seq(graph_size)
 #seq.append([5,12])
 #seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
@@ -47,6 +47,7 @@ cycles = entry_tarjan(deepcopy(G))
 # print "Picked cycles:", min_cycles(cycles)
 # print small_cycles(cycles)
 print "Dummy nodes needed with repeats:", count_dummy_nodes_necessary(min_cycles(cycles), graph_size)
+print "All nodes necessary with repeats:", count_nodes_necessary(min_cycles(cycles))
 # print count_dummy_nodes_necessary(small_cycles(cycles), graph_size)
 # print count_nodes_necessary(min_cycles(cycles))
 # print count_nodes_necessary(small_cycles(cycles))

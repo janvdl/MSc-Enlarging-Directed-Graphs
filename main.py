@@ -66,7 +66,7 @@ cycles = entry_tarjan(deepcopy(newGraph2))
 # print small_cycles(cycles)
 print "Dummy nodes needed with repeats:", count_dummy_nodes_necessary(min_cycles(cycles), graph_size)
 # print count_dummy_nodes_necessary(small_cycles(cycles), graph_size)
-# print count_nodes_necessary(min_cycles(cycles))
+print "All nodes necessary with repeats:", count_nodes_necessary(min_cycles(cycles))
 # print count_nodes_necessary(small_cycles(cycles))
 print "=================END====================="
 # print get_graphviz_names_from_graph(newGraph2, seq, graph_size)
