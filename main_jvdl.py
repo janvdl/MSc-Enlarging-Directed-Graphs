@@ -10,7 +10,7 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 8
+graph_size = 18
 seq = get_random_seq(graph_size)
 #seq.append([5,12])
 #seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
@@ -40,17 +40,19 @@ augment(G, seq, cycles)
 print "\n=================JvdL================="
 print "Number of nodes: ", graph_size
 print "Time: ", time.time() - start_time, "seconds"
-print "Dummy nodes needed:", len(G) - graph_size
+print "Unique dummy nodes:", len(G) - graph_size
 #print newGraph2
 cycles = entry_tarjan(deepcopy(G))
-# print "Cycles:", cycles
-# print "Picked cycles:", min_cycles(cycles)
-# print small_cycles(cycles)
-print "Dummy nodes needed with repeats:", count_dummy_nodes_necessary(min_cycles(cycles), graph_size)
-print "All nodes necessary with repeats:", count_nodes_necessary(min_cycles(cycles))
-# print count_dummy_nodes_necessary(small_cycles(cycles), graph_size)
-# print count_nodes_necessary(min_cycles(cycles))
-# print count_nodes_necessary(small_cycles(cycles))
+print ""
+# print "Min. cycles:", min_cycles(deepcopy(cycles))
+minimum_cycles = min_cycles(deepcopy(cycles))
+print "Total dummy nodes (min. cycles):", count_dummy_nodes_necessary(deepcopy(minimum_cycles), graph_size)
+print "Total nodes (min. cycles):", count_nodes_necessary(deepcopy(minimum_cycles))
+print ""
+# print "Small cycles:", small_cycles(deepcopy(cycles))
+smallest_cycles = small_cycles(deepcopy(cycles))
+print "Total dummy nodes (small cycles):", count_dummy_nodes_necessary(deepcopy(smallest_cycles), graph_size)
+print "Total nodes (small cycles):", count_nodes_necessary(deepcopy(smallest_cycles))
 print "=================END=================="
 
 # cycles = (entry_tarjan(deepcopy(G)))

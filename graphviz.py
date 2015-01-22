@@ -49,6 +49,17 @@ def get_graphviz_from_graph(G):
 
     return s
 
+def get_graphviz_from_matrix(G):
+    s = 'digraph G {'
+    for i in xrange(0, len(G)):
+        s = s + 'v' + str(i) + ';'
+        for j in xrange(0, len(G)):
+            if G[i][j] == 1:
+                s = s + 'v' + str(i) + '->' + 'v' + str(j) + ';'
+    s = s + '}'
+
+    return s    
+
 def get_graphviz_names_from_graph(G, seq, length):
     names = names_us
     # s = 'digraph G {size="5"; center=true;{'

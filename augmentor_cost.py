@@ -10,9 +10,9 @@ def augment(G, seq, cycles, dis, no_in, no_out):
     usedNodes = []
     cycleNodesKeeper = sum(cycles, [])
 
-    #print "Graph:", newGraph
+    print "Graph:", newGraph
     components = hopcroft(deepcopy(newGraph))
-    #print "Components:", components
+    print "Components:", components
 
     while len(dis) > 0 or len(no_in) > 0 or len(no_out) > 0:
         first = None
@@ -43,7 +43,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
             else:
                 mid = None
 
-            #print "1 Intermediate first,mid,last,component:", first, mid, last, selected_component
+            print "1 Intermediate first,mid,last,component:", first, mid, last, selected_component
 
         elif len(no_in) > 0:
             last = no_in.pop(0)
@@ -67,7 +67,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
             else:
                 mid = None
 
-            #print "2 Intermediate first,mid,last,component:", first, mid, last, selected_component
+            print "2 Intermediate first,mid,last,component:", first, mid, last, selected_component
 
         elif len(dis) > 0:
             mid = dis.pop(0)
@@ -91,13 +91,13 @@ def augment(G, seq, cycles, dis, no_in, no_out):
             else:
                 last = None
 
-            #print "3 Intermediate first,mid,last,component:", first, mid, last, selected_component
+            print "3 Intermediate first,mid,last,component:", first, mid, last, selected_component
 
         cycleNodes = selected_component
         combined = list(set(cycleNodesKeeper) & set(cycleNodes))
         if len(combined) > 0:
             cycleNodes = combined
-        #print "Selected first,mid,last,component:", first, mid, last, selected_component
+        print "Selected first,mid,last,component:", first, mid, last, selected_component
 
         if mid != None:
             if first == None and last == None:
@@ -110,7 +110,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                 newGraph.append([]) #append one placeholder
                 newGraph[mid].append(dummy0_nodenumber)
                 newGraph[dummy0_nodenumber].append(mid)
-                #print "Isolated only:", mid, dummy0_nodenumber
+                print "Isolated only:", mid, dummy0_nodenumber
             else:
                 if first == None:
                     availableNodes = list(set(cycleNodes) - set(usedNodes))
@@ -120,7 +120,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                         first = availableNodes[0]
                         usedNodes.append(first)
                     else:
-                        first = cycleNodes[randint(0, len(cycleNodes))]
+                        first = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
                 if last == None:
                     availableNodes = list(set(cycleNodes) - set(usedNodes))
                     if first in availableNodes:
@@ -129,7 +129,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                         last = availableNodes[0]
                         usedNodes.append(last)
                     else:
-                        last = cycleNodes[randint(0, len(cycleNodes))]
+                        last = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
 
                 #create nodes dummy1 and dummy2
                 dummy1 = [seq[mid][1], seq[first][0]]
@@ -146,7 +146,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                 newGraph[dummy1_nodenumber].append(mid)
                 newGraph[mid].append(dummy2_nodenumber)
                 newGraph[dummy2_nodenumber].append(last)
-                #print first, mid, last, " & dummies:", dummy1_nodenumber, dummy2_nodenumber
+                print first, mid, last, " & dummies:", dummy1_nodenumber, dummy2_nodenumber
         else:
             if first == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
@@ -156,7 +156,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                     first = availableNodes[0]
                     usedNodes.append(first)
                 else:
-                    first = cycleNodes[randint(0, len(cycleNodes))]
+                    first = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
             if last == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
                 if first in availableNodes:
@@ -165,11 +165,11 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                     last = availableNodes[0]
                     usedNodes.append(last)
                 else:
-                    last = cycleNodes[randint(0, len(cycleNodes))]
+                    last = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
 
             #create node dummy3
             dummy3 = [seq[last][1], seq[first][0]]
-            #print "Dummy 3:", dummy3
+            print "Dummy 3:", dummy3
             seq.append(dummy3)
 
             #create path first -> dummy3 -> last in newGraph
@@ -177,7 +177,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
             newGraph.append([]) #append a placeholder
             newGraph[first].append(dummy3_nodenumber)
             newGraph[dummy3_nodenumber].append(last)
-            #print first, mid, last, " & dummy:", dummy3_nodenumber
+            print first, mid, last, " & dummy:", dummy3_nodenumber
         # CGI = find_all_types_nodes(G)
         # no_out = CGI[1]
         # no_in = CGI[0]

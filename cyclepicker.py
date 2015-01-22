@@ -26,14 +26,31 @@ def small_cycles(cycles_):
     cycles = cycles_
     picked_cycles = deepcopy(cycles)
 
+    #Keep track of nodes in cycles. We cannot lose any nodes by dropping supersets.
+    nodes_in_cycles = set(sum(cycles_, []))
+
     for cycle1 in cycles_[:]:
         for cycle2 in cycles_[:]:
             if sorted(cycle1) != sorted(cycle2) and (set(cycle2)).issuperset(set(cycle1)):
                 if cycle2 in picked_cycles:
-                    picked_cycles.remove(cycle2)
+                    #Check if we're losing nodes by dropping the superset
+                    copy = deepcopy(picked_cycles)
+                    copy.remove(cycle2)
+                    post_nodes_in_cycles = set(sum(copy, []))
+                    if len(nodes_in_cycles) == len(post_nodes_in_cycles):
+                        picked_cycles.remove(cycle2)
+                    # else:
+                    #     print 'removing', cycle2, 'would cause', sorted(nodes_in_cycles), 'to become', sorted(post_nodes_in_cycles)
             if sorted(cycle1) == sorted(cycle2):
                 if cycles_.index(cycle1) < cycles_.index(cycle2) and cycle2 in picked_cycles:
-                    picked_cycles.remove(cycle2)
+                    #Check if we're losing nodes by dropping the superset
+                    copy = deepcopy(picked_cycles)
+                    copy.remove(cycle2)
+                    post_nodes_in_cycles = set(sum(copy, []))
+                    if len(nodes_in_cycles) == len(post_nodes_in_cycles):
+                        picked_cycles.remove(cycle2)
+                    # else:
+                    #     print 'removing', cycle2, 'would cause', sorted(nodes_in_cycles), 'to become', sorted(post_nodes_in_cycles)
 
     return picked_cycles
 
