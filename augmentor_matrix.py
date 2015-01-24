@@ -2,7 +2,6 @@ from math import *
 
 def augment(G):
 	#print 'augment'
-	#Destroy duplicates
 	G = destroyDuplicates(G)
 
 	#Count the row and column totals
@@ -56,6 +55,9 @@ def augment(G):
 		#Create the connection
 		G_new[first][mid] = 1
 		G_new[mid][last] = 1
+
+		print first,mid
+		print mid, last
 
 	return G_new
 
@@ -117,7 +119,7 @@ def destroyDuplicates(G):
 	# #print row_indices_counts
 	# #print col_indices_counts
 	# #print G
-
+	#print 'Zeroes needed after duplicates:', extraZeroesNeeded
 	return expandGraph(G, extraZeroesNeeded)
 
 def expandGraph(G, numberOfNodesExtra):

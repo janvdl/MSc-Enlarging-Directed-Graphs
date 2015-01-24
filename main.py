@@ -9,7 +9,7 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 10
+graph_size = 18
 seq = get_random_seq(graph_size)
 #print "Original sequence:\n", seq
 G = get_graph(seq)
@@ -57,7 +57,6 @@ newGraph2 = SandersSecond(deepcopy(newGraph), seq, no_cycles)
 print "\n=================Sanders================="
 print "Number of nodes: ", graph_size
 #print "Number of cycles: ", len(remove)
-print "Time: ", time.time() - start_time, "seconds"
 print "Dummy nodes needed:", len(newGraph2) - graph_size
 #print newGraph2
 cycles = entry_tarjan(deepcopy(newGraph2))
@@ -71,5 +70,6 @@ print ""
 smallest_cycles = small_cycles(deepcopy(cycles))
 print "Total dummy nodes (small cycles):", count_dummy_nodes_necessary(deepcopy(smallest_cycles), graph_size)
 print "Total nodes (small cycles):", count_nodes_necessary(deepcopy(smallest_cycles))
+print "Time: ", time.time() - start_time, "seconds"
 print "=================END====================="
-# print get_graphviz_names_from_graph(newGraph2, seq, graph_size)
+#print get_graphviz_names_from_graph(newGraph2, seq, graph_size)
