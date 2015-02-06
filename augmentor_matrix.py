@@ -56,8 +56,8 @@ def augment(G):
 		G_new[first][mid] = 1
 		G_new[mid][last] = 1
 
-		print first,mid
-		print mid, last
+		#print first,mid
+		#print mid, last
 
 	return G_new
 

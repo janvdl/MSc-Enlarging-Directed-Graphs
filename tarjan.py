@@ -48,5 +48,3 @@ def entry_tarjan(G_):
             marked[u] = False
 
     return cycles
-
-# print entry_tarjan([[1], [10], [0], [0], [3], [8], [9], [4, 5], [2], [6], [7]])

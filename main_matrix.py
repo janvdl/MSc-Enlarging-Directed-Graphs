@@ -9,14 +9,13 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 1000
+graph_size = 8
 seq = get_random_seq(graph_size)
 G = get_matrix(seq)
-G = [[0, 1, 1, 1], [0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 #print G
 G_ = augment(deepcopy(G))
 #print G_
-print get_graphviz_from_matrix(G_)
+#print get_graphviz_from_matrix(G_)
 
 print "\n=================Matrix================="
 print "Number of nodes: ", graph_size

@@ -12,10 +12,6 @@ start_time = time.time()
 #Generate a random graph or specify it
 graph_size = 22
 seq = get_random_seq(graph_size)
-#seq.append([5,12])
-#seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7]]
-#seq.append([7,5])
-#seq.append([1,2])
 #print "Original sequence:\n", seq
 G = get_graph(seq)
 #print "\n\nOriginal graph:\n", G
@@ -50,9 +46,9 @@ print "Total dummy nodes (min. cycles):", count_dummy_nodes_necessary(deepcopy(m
 print "Total nodes (min. cycles):", count_nodes_necessary(deepcopy(minimum_cycles))
 print ""
 # print "Small cycles:", small_cycles(deepcopy(cycles))
-smallest_cycles = small_cycles(deepcopy(cycles))
-print "Total dummy nodes (small cycles):", count_dummy_nodes_necessary(deepcopy(smallest_cycles), graph_size)
-print "Total nodes (small cycles):", count_nodes_necessary(deepcopy(smallest_cycles))
+#smallest_cycles = small_cycles(deepcopy(cycles))
+#print "Total dummy nodes (small cycles):", count_dummy_nodes_necessary(deepcopy(smallest_cycles), graph_size)
+#print "Total nodes (small cycles):", count_nodes_necessary(deepcopy(smallest_cycles))
 print "=================END=================="
 
 # cycles = (entry_tarjan(deepcopy(G)))
