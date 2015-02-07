@@ -7,14 +7,25 @@ contained_nodes = []
 spill_nodes     = []
 
 def min_cycles(cycles_):
-    r = 1
+    r = 0
     all_picked_cycles = combination(cycles_, r)
 
     while (len(all_picked_cycles) < 1):
-        r = r + 1
-        all_picked_cycles = combination(cycles_, r)
+        try:
+            r = r + 1
+            all_picked_cycles = combination(cycles_, r)
+        except:
+            r = r + 1
 
-    return all_picked_cycles[0]
+    #Determine smallest number of nodes
+    index = 0
+    max_ = 999999999999999999
+    for i in xrange(0, len(all_picked_cycles)):
+        count_ = count_nodes_necessary(all_picked_cycles[i])
+        if count_ <= max_:
+            max_ = count_
+            index = i
+    return all_picked_cycles[index]
 
 # def rcombs(cycles_, r):
 

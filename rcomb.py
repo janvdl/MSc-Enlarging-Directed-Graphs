@@ -1,3 +1,5 @@
+import math
+
 def combination(cycles, r):
 	all_picked_cycles = []
 	nodes_in_cycles = set(sum(cycles, []))
@@ -29,12 +31,12 @@ def combination(cycles, r):
 	return all_picked_cycles
 
 def C(n, r):
-	return factorial(n) / (factorial(r) * factorial(n - r))
+	return math.factorial(n) / (math.factorial(r) * math.factorial(n - r))
 
-def factorial(n):
-	if n <= 1:
-		return 1
-	else:
-		return n * factorial(n - 1)
+# def factorial(n):
+# 	if n <= 1:
+# 		return 1
+# 	else:
+# 		return n * factorial(n - 1)
 
 #print combination([[0, 5], [1, 5], [2, 5], [3, 6, 8, 7, 9], [0, 4, 6, 10, 2, 5], [1, 4, 6, 10, 2, 5], [2, 4, 6, 10]], 3)
