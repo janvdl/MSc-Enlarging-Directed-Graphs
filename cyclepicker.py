@@ -1,4 +1,5 @@
 from copy import deepcopy
+from rcomb import combination
 
 cycles          = []    #all cycles of nodes
 picked_cycles   = []
@@ -6,31 +7,18 @@ contained_nodes = []
 spill_nodes     = []
 
 def min_cycles(cycles_):
-    global cycles, picked_cycles, spill_nodes
-    cycles = cycles_
-    picked_cycles = deepcopy(cycles)    
-    nodes_in_cycles = set(sum(cycles_, []))
+    r = 1
+    all_picked_cycles = combination(cycles_, r)
 
-    # for cycle1 in cycles_[:]:
-    #     for cycle2 in cycles_[:]:
-    #         if sorted(cycle1) != sorted(cycle2) and (set(cycle2)).issubset(set(cycle1)):
-    #             if cycle2 in picked_cycles:
-    #                 picked_cycles.remove(cycle2)
-    #         if sorted(cycle1) == sorted(cycle2):
-    #             if cycles_.index(cycle1) < cycles_.index(cycle2) and cycle2 in picked_cycles:
-    #                 picked_cycles.remove(cycle2)
+    while (len(all_picked_cycles) < 1):
+        r = r + 1
+        all_picked_cycles = combination(cycles_, r)
 
-    for cycle1 in cycles_[:]:
-        for cycle2 in cycles_[:]:
-            if cycle1 != cycle2:
-                copy = deepcopy(picked_cycles)
-                if cycle2 in copy:
-                    copy.remove(cycle2)
-                post_nodes_in_cycles = set(sum(copy, []))
-                if len(nodes_in_cycles) == len(post_nodes_in_cycles) and cycle2 in picked_cycles:
-                    picked_cycles.remove(cycle2)
+    return all_picked_cycles[0]
 
-    return picked_cycles
+# def rcombs(cycles_, r):
+
+#print min_cycles([[0, 1], [0, 1, 8, 4], [0, 1, 8, 5], [0, 1, 8, 7, 2], [0, 1, 8, 7, 3], [0, 1, 8, 7, 9, 4], [0, 1, 8, 7, 9, 5], [0, 6, 2], [0, 6, 2, 8, 4], [0, 6, 2, 8, 5], [0, 6, 2, 8, 7, 3], [0, 6, 2, 8, 7, 9, 4], [0, 6, 2, 8, 7, 9, 5], [0, 6, 3], [0, 6, 3, 8, 4], [0, 6, 3, 8, 5], [0, 6, 3, 8, 7, 2], [0, 6, 3, 8, 7, 9, 4], [0, 6, 3, 8, 7, 9, 5], [0, 6, 9, 4], [0, 6, 9, 4, 8, 5], [0, 6, 9, 4, 8, 7, 2], [0, 6, 9, 4, 8, 7, 3], [0, 6, 9, 5], [0, 6, 9, 5, 8, 4], [0, 6, 9, 5, 8, 7, 2], [0, 6, 9, 5, 8, 7, 3], [0, 6, 9, 7, 2], [0, 6, 9, 7, 2, 8, 4], [0, 6, 9, 7, 2, 8, 5], [0, 6, 9, 7, 3], [0, 6, 9, 7, 3, 8, 4], [0, 6, 9, 7, 3, 8, 5], [2, 8, 7], [3, 8, 7], [4, 8], [4, 8, 7, 9], [5, 8], [5, 8, 7, 9], [7, 9], [11, 14]])
 
 def small_cycles(cycles_):
     global cycles, picked_cycles, spill_nodes
@@ -39,29 +27,6 @@ def small_cycles(cycles_):
 
     #Keep track of nodes in cycles. We cannot lose any nodes by dropping supersets.
     nodes_in_cycles = set(sum(cycles_, []))
-
-    # for cycle1 in cycles_[:]:
-    #     for cycle2 in cycles_[:]:
-    #         if sorted(cycle1) != sorted(cycle2) and (set(cycle2)).issuperset(set(cycle1)):
-    #             if cycle2 in picked_cycles:
-    #                 #Check if we're losing nodes by dropping the superset
-    #                 copy = deepcopy(picked_cycles)
-    #                 copy.remove(cycle2)
-    #                 post_nodes_in_cycles = set(sum(copy, []))
-    #                 if len(nodes_in_cycles) == len(post_nodes_in_cycles):
-    #                     picked_cycles.remove(cycle2)
-    #                 # else:
-    #                 #     print 'removing', cycle2, 'would cause', sorted(nodes_in_cycles), 'to become', sorted(post_nodes_in_cycles)
-    #         if sorted(cycle1) == sorted(cycle2):
-    #             if cycles_.index(cycle1) < cycles_.index(cycle2) and cycle2 in picked_cycles:
-    #                 #Check if we're losing nodes by dropping the superset
-    #                 copy = deepcopy(picked_cycles)
-    #                 copy.remove(cycle2)
-    #                 post_nodes_in_cycles = set(sum(copy, []))
-    #                 if len(nodes_in_cycles) == len(post_nodes_in_cycles):
-    #                     picked_cycles.remove(cycle2)
-    #                 # else:
-    #                 #     print 'removing', cycle2, 'would cause', sorted(nodes_in_cycles), 'to become', sorted(post_nodes_in_cycles)
 
     for cycle1 in cycles_[:]:
         for cycle2 in cycles_[:]:

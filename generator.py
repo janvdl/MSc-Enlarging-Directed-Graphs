@@ -1,8 +1,8 @@
 import random
 from random import randint
 #random.seed(123789456)
-#random.seed(170888264)
-random.seed(923462908)
+random.seed(170888264)
+#random.seed(923462908)
 
 number_of_nodes = 0
 avg_min = 9
