@@ -1,7 +1,6 @@
 import random
 from random import randint
-#random.seed(123789456)
-random.seed(170888264)
+#random.seed(170888264)
 #random.seed(923462908)
 
 number_of_nodes = 0
@@ -10,6 +9,11 @@ avg_max = 11
 sd_min = -2
 sd_max = 2
 shoes = []
+
+def getseed():
+    return 123789456
+    #return 170888264
+    #return 923462908
 
 ##Generate Single Shoe Pair
 def get_shoe_pair():
@@ -30,6 +34,7 @@ def get_shoe_pair():
 
 ##Generate some number of random shoe pairs
 def get_random_seq(nodes_):
+    random.seed(getseed())
     temp_shoes = []
     for i in range(0, nodes_):
         temp_shoes.append(get_shoe_pair())

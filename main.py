@@ -1,5 +1,5 @@
 import time
-from generator import get_graph, get_random_seq
+from generator import get_graph, get_random_seq, getseed
 from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph
 from tarjan import entry_tarjan
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes, count_nodes, count_dummy_nodes_necessary, count_nodes_necessary
@@ -63,8 +63,14 @@ cycles = entry_tarjan(deepcopy(newGraph2))
 print ""
 # print "Min. cycles:", min_cycles(deepcopy(cycles))
 minimum_cycles = min_cycles(deepcopy(cycles))
-print "Total dummy nodes (min. cycles):", count_dummy_nodes_necessary(deepcopy(minimum_cycles), graph_size)
-print "Total nodes (min. cycles):", count_nodes_necessary(deepcopy(minimum_cycles))
+count1 = count_dummy_nodes_necessary(deepcopy(minimum_cycles), graph_size)
+count2 = count_nodes_necessary(deepcopy(minimum_cycles))
+print "Total dummy nodes (min. cycles):", count1
+print "Total nodes (min. cycles):", count2
+
+outfile = "outputs/output_sanders_" + str(getseed()) + "_" + str(graph_size) + ".txt"
+with open(outfile, 'w') as text_file:
+	text_file.write("Total dummy nodes: \t\t\t\t %s \nTotal nodes (min. cycles): \t\t %s" % (count1, count2))
 print ""
 # smallest_cycles = small_cycles(deepcopy(cycles))
 # print "Total dummy nodes (small cycles):", count_dummy_nodes_necessary(deepcopy(smallest_cycles), graph_size)
