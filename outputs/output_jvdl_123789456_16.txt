@@ -1,0 +1,2 @@
+Total dummy nodes: 				 4 
+Total nodes (min. cycles): 		 23
