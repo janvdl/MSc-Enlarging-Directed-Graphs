@@ -10,7 +10,7 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 18
+graph_size = 16
 seq = get_random_seq(graph_size)
 #print "Original sequence:\n", seq
 G = get_graph(seq)
@@ -49,7 +49,7 @@ print "Total nodes (min. cycles):", count2
 
 outfile = "outputs/output_jvdl_" + str(getseed()) + "_" + str(graph_size) + ".txt"
 with open(outfile, 'w') as text_file:
-	text_file.write("Total dummy nodes: \t\t\t\t %s \nTotal nodes (min. cycles): \t\t %s" % (count1, count2))
+	text_file.write("Unique dummy nodes: \t\t\t %s \nTotal dummy nodes: \t\t\t\t %s \nTotal nodes (min. cycles): \t\t %s \nTime: \t\t\t\t\t\t\t %s" % (str(len(G) - graph_size), count1, count2, str(time.time() - start_time)))
 print ""
 # print "Small cycles:", small_cycles(deepcopy(cycles))
 #smallest_cycles = small_cycles(deepcopy(cycles))
