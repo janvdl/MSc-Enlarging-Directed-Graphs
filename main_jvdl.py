@@ -5,12 +5,13 @@ from tarjan import entry_tarjan
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes, count_nodes, count_dummy_nodes_necessary, count_nodes_necessary
 from augmentor_jvdl import augment
 from copy import deepcopy
+from lcs import find_repeated_nodes, remove_repeated_nodes
 
 #for i in xrange(8, 10, 2):
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 16
+graph_size = 14
 seq = get_random_seq(graph_size)
 #print "Original sequence:\n", seq
 G = get_graph(seq)
@@ -40,12 +41,18 @@ print "Unique dummy nodes:", len(G) - graph_size
 #print newGraph2
 cycles = entry_tarjan(deepcopy(G))
 print ""
-# print "Min. cycles:", min_cycles(deepcopy(cycles))
 minimum_cycles = min_cycles(deepcopy(cycles))
+print "Min. cycles:", minimum_cycles
 count1 = count_dummy_nodes_necessary(deepcopy(minimum_cycles), graph_size)
 count2 = count_nodes_necessary(deepcopy(minimum_cycles))
 print "Total dummy nodes (min. cycles):", count1
 print "Total nodes (min. cycles):", count2
+
+print "Repeated nodes:", find_repeated_nodes(minimum_cycles)
+rem_rep = remove_repeated_nodes(deepcopy(minimum_cycles), find_repeated_nodes(minimum_cycles))
+count2 = count_nodes_necessary(deepcopy(rem_rep))
+print "Total nodes compressed (min. cycles):", count2
+print rem_rep
 
 outfile = "outputs/output_jvdl_" + str(getseed()) + "_" + str(graph_size) + ".txt"
 with open(outfile, 'w') as text_file:
