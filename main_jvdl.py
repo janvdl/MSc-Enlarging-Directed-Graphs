@@ -11,8 +11,9 @@ from lcs import find_repeated_nodes, remove_repeated_nodes
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 14
+graph_size = 9
 seq = get_random_seq(graph_size)
+seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7], [7,5]]
 #print "Original sequence:\n", seq
 G = get_graph(seq)
 #print "\n\nOriginal graph:\n", G
@@ -42,17 +43,24 @@ print "Unique dummy nodes:", len(G) - graph_size
 cycles = entry_tarjan(deepcopy(G))
 print ""
 minimum_cycles = min_cycles(deepcopy(cycles))
+smallest_cycles = small_cycles(deepcopy(cycles))
 print "Min. cycles:", minimum_cycles
+# print "Small cycles:", smallest_cycles
 count1 = count_dummy_nodes_necessary(deepcopy(minimum_cycles), graph_size)
 count2 = count_nodes_necessary(deepcopy(minimum_cycles))
 print "Total dummy nodes (min. cycles):", count1
 print "Total nodes (min. cycles):", count2
+# count3 = count_dummy_nodes_necessary(deepcopy(smallest_cycles), graph_size)
+# count4 = count_nodes_necessary(deepcopy(smallest_cycles))
+# print "Total dummy nodes (small. cycles):", count3
+# print "Total nodes (small. cycles):", count4
 
 print "Repeated nodes:", find_repeated_nodes(minimum_cycles)
 rem_rep = remove_repeated_nodes(deepcopy(minimum_cycles), find_repeated_nodes(minimum_cycles))
+count1 = count_dummy_nodes_necessary(deepcopy(rem_rep), graph_size)
 count2 = count_nodes_necessary(deepcopy(rem_rep))
 print "Total nodes compressed (min. cycles):", count2
-print rem_rep
+# print remove_repeated_nodes
 
 outfile = "outputs/output_jvdl_" + str(getseed()) + "_" + str(graph_size) + ".txt"
 with open(outfile, 'w') as text_file:
@@ -71,3 +79,4 @@ print "=================END=================="
 # print count_dummy_nodes_necessary(small_cycles(cycles), graph_size)
 # print count_nodes_necessary(min_cycles(cycles))
 # print count_nodes_necessary(small_cycles(cycles))
+# print get_graphviz_names_from_graph(G, seq, graph_size)

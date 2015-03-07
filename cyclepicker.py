@@ -6,16 +6,17 @@ picked_cycles   = []
 contained_nodes = []
 spill_nodes     = []
 
-def min_cycles(cycles_):
-    r = 0
+def small_cycles(cycles_):
+    r = len(cycles_)
     all_picked_cycles = combination(cycles_, r)
 
-    while (len(all_picked_cycles) < 1):
+    while (len(all_picked_cycles) < 1 and r >= 1):
         try:
-            r = r + 1
+            #try except needed for 
+            r = r - 1
             all_picked_cycles = combination(cycles_, r)
         except:
-            r = r + 1
+            r = r - 1
 
     #Determine smallest number of nodes
     index = 0
@@ -31,25 +32,27 @@ def min_cycles(cycles_):
 
 #print min_cycles([[0, 1], [0, 1, 8, 4], [0, 1, 8, 5], [0, 1, 8, 7, 2], [0, 1, 8, 7, 3], [0, 1, 8, 7, 9, 4], [0, 1, 8, 7, 9, 5], [0, 6, 2], [0, 6, 2, 8, 4], [0, 6, 2, 8, 5], [0, 6, 2, 8, 7, 3], [0, 6, 2, 8, 7, 9, 4], [0, 6, 2, 8, 7, 9, 5], [0, 6, 3], [0, 6, 3, 8, 4], [0, 6, 3, 8, 5], [0, 6, 3, 8, 7, 2], [0, 6, 3, 8, 7, 9, 4], [0, 6, 3, 8, 7, 9, 5], [0, 6, 9, 4], [0, 6, 9, 4, 8, 5], [0, 6, 9, 4, 8, 7, 2], [0, 6, 9, 4, 8, 7, 3], [0, 6, 9, 5], [0, 6, 9, 5, 8, 4], [0, 6, 9, 5, 8, 7, 2], [0, 6, 9, 5, 8, 7, 3], [0, 6, 9, 7, 2], [0, 6, 9, 7, 2, 8, 4], [0, 6, 9, 7, 2, 8, 5], [0, 6, 9, 7, 3], [0, 6, 9, 7, 3, 8, 4], [0, 6, 9, 7, 3, 8, 5], [2, 8, 7], [3, 8, 7], [4, 8], [4, 8, 7, 9], [5, 8], [5, 8, 7, 9], [7, 9], [11, 14]])
 
-def small_cycles(cycles_):
-    global cycles, picked_cycles, spill_nodes
-    cycles = cycles_
-    picked_cycles = deepcopy(cycles)
+def min_cycles(cycles_):
+    r = 0
+    all_picked_cycles = combination(cycles_, r)
 
-    #Keep track of nodes in cycles. We cannot lose any nodes by dropping supersets.
-    nodes_in_cycles = set(sum(cycles_, []))
+    while (len(all_picked_cycles) < 1 and r <= len(cycles_)):
+        try:
+            #try except needed for 
+            r = r + 1
+            all_picked_cycles = combination(cycles_, r)
+        except:
+            r = r + 1
 
-    for cycle1 in cycles_[:]:
-        for cycle2 in cycles_[:]:
-            if cycle1 != cycle2:
-                copy = deepcopy(picked_cycles)
-                if cycle2 in copy:
-                    copy.remove(cycle2)
-                post_nodes_in_cycles = set(sum(copy, []))
-                if len(nodes_in_cycles) == len(post_nodes_in_cycles) and cycle2 in picked_cycles:
-                    picked_cycles.remove(cycle2)
-
-    return picked_cycles
+    #Determine smallest number of nodes
+    index = 0
+    max_ = 999999999999999999
+    for i in xrange(0, len(all_picked_cycles)):
+        count_ = count_nodes_necessary(all_picked_cycles[i])
+        if count_ <= max_:
+            max_ = count_
+            index = i
+    return all_picked_cycles[index]
 
 #This method counts the frequency of nodes
 #Every time a node is found in a cycle, the count is increased

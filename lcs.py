@@ -27,7 +27,7 @@ def find_repeated_nodes(cycles):
                     repeated_nodes.append(lcs_)
                     AnyFound = True
 
-    return repeated_nodes
+    return sorted(repeated_nodes, key=len)
 
 def remove_repeated_nodes(cycles, repeated_nodes):
     dict_val = 0;

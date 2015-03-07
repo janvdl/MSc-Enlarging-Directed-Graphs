@@ -11,9 +11,9 @@ sd_max = 2
 shoes = []
 
 def getseed():
-    #return 123789456
+    return 123789456
     #return 170888264
-    return 923462908
+    #return 923462908
 
 ##Generate Single Shoe Pair
 def get_shoe_pair():
