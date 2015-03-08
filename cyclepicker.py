@@ -1,5 +1,5 @@
 from copy import deepcopy
-from rcomb import combination
+from rcomb import combination, built_in_rcombs
 
 cycles          = []    #all cycles of nodes
 picked_cycles   = []
@@ -9,6 +9,9 @@ spill_nodes     = []
 def small_cycles(cycles_):
     r = len(cycles_)
     all_picked_cycles = combination(cycles_, r)
+
+    if all_picked_cycles == [[]]:
+        all_picked_cycles = []
 
     while (len(all_picked_cycles) < 1 and r >= 1):
         try:
@@ -30,19 +33,17 @@ def small_cycles(cycles_):
 
 # def rcombs(cycles_, r):
 
-#print min_cycles([[0, 1], [0, 1, 8, 4], [0, 1, 8, 5], [0, 1, 8, 7, 2], [0, 1, 8, 7, 3], [0, 1, 8, 7, 9, 4], [0, 1, 8, 7, 9, 5], [0, 6, 2], [0, 6, 2, 8, 4], [0, 6, 2, 8, 5], [0, 6, 2, 8, 7, 3], [0, 6, 2, 8, 7, 9, 4], [0, 6, 2, 8, 7, 9, 5], [0, 6, 3], [0, 6, 3, 8, 4], [0, 6, 3, 8, 5], [0, 6, 3, 8, 7, 2], [0, 6, 3, 8, 7, 9, 4], [0, 6, 3, 8, 7, 9, 5], [0, 6, 9, 4], [0, 6, 9, 4, 8, 5], [0, 6, 9, 4, 8, 7, 2], [0, 6, 9, 4, 8, 7, 3], [0, 6, 9, 5], [0, 6, 9, 5, 8, 4], [0, 6, 9, 5, 8, 7, 2], [0, 6, 9, 5, 8, 7, 3], [0, 6, 9, 7, 2], [0, 6, 9, 7, 2, 8, 4], [0, 6, 9, 7, 2, 8, 5], [0, 6, 9, 7, 3], [0, 6, 9, 7, 3, 8, 4], [0, 6, 9, 7, 3, 8, 5], [2, 8, 7], [3, 8, 7], [4, 8], [4, 8, 7, 9], [5, 8], [5, 8, 7, 9], [7, 9], [11, 14]])
-
 def min_cycles(cycles_):
     r = 0
     all_picked_cycles = combination(cycles_, r)
 
+    if all_picked_cycles == [[]]:
+        all_picked_cycles = []
+
     while (len(all_picked_cycles) < 1 and r <= len(cycles_)):
-        try:
-            #try except needed for 
-            r = r + 1
-            all_picked_cycles = combination(cycles_, r)
-        except:
-            r = r + 1
+        #try except needed for 
+        r = r + 1
+        all_picked_cycles = combination(cycles_, r)
 
     #Determine smallest number of nodes
     index = 0
