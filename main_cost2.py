@@ -4,9 +4,10 @@ from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, 
 from tarjan import entry_tarjan
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes, count_nodes, count_dummy_nodes_necessary, count_nodes_necessary
 # from augmentor_cost2 import augment, SandersSecond
-from augmentor import SandersFirst, SandersSecond
+# from augmentor import SandersFirst, SandersSecond
+from augmentor_jvdl import augment
 from copy import deepcopy
-from rcomb import built_in_rcombs
+from rcomb import built_in_rcombs, custom_rcomb
 
 # ======================================
 def ContainsOnlySingleNodes(cycles):
@@ -25,7 +26,7 @@ def ContainsOnlySingleNodes(cycles):
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 14
+graph_size = 8
 seq = get_random_seq(graph_size)
 G = get_graph(seq)
 #print get_graphviz_names_from_graph(G, seq, graph_size)
@@ -33,44 +34,74 @@ G = get_graph(seq)
 
 #Find the cycles in the graph
 cycles = entry_tarjan(deepcopy(G))
-#print cycles
+# print cycles
+
+#Find the cycle combinations containing each node only once
 SingleNodeCycles = []
+Continue_ = True
 for i in xrange(1, len(cycles)):
-	comb_cycles = built_in_rcombs(cycles, i)
-	for cycles in comb_cycles:
-		if ContainsOnlySingleNodes(cycles):
-			SingleNodeCycles.append(cycles)
-print sorted(SingleNodeCycles, key=len)
+	Continue_ = False
+	comb_cycles = custom_rcomb(cycles, i)
+	# print i, ":", comb_cycles
+	for cycles_ in comb_cycles:
+		if ContainsOnlySingleNodes(cycles_):
+			Continue_ = True
+			SingleNodeCycles.append(cycles_)
+	if not Continue_:
+		break
+#print (sorted(SingleNodeCycles, key=len))
+
+#Select some combination to continue with
+if len(SingleNodeCycles) != 0:
+	selected_comb = list((sorted(SingleNodeCycles, key=len))[-1])
+	original_cycles = deepcopy(selected_comb)
+	nodes_in_selected_comb = (set(sum(selected_comb, [])))
+	other_nodes = set(xrange(0, graph_size)) - nodes_in_selected_comb
+	subseq = [seq[k] for k in other_nodes]
+	subG = get_graph(subseq)
+	subcycles = entry_tarjan(deepcopy(subG))
+else:
+	print "ACHTUNG: No single node cycles!"
+	subseq = seq
+	subG = G
+	subcycles = cycles
+# print selected_comb
+# print nodes_in_selected_comb
+# print other_nodes
+# print subseq
+# print subG
+# print "sub cycles:", subcycles
 
 #Find the greedy, charity, and isolated nodes
-#print "Finding CGI"
-# CGI = find_all_types_nodes(G)
-# greedy_nodes = CGI[1]
-# charity_nodes = CGI[0]
-# isolated_nodes = CGI[2]
+CGI = find_all_types_nodes(subG)
+greedy_nodes = CGI[1]
+charity_nodes = CGI[0]
+isolated_nodes = CGI[2]
 
-# newGraph = SandersFirst(deepcopy(G), seq, cycles[:], isolated_nodes, charity_nodes, greedy_nodes)
-# cycles = sum(entry_tarjan(deepcopy(newGraph)), [])
-# new_nodes = list(xrange(0, len(newGraph)))
-# no_cycles = list(set(new_nodes) - set(cycles))
+newGraph = augment(deepcopy(subG), subseq, subcycles[:])
+# print newGraph
 
-# newGraph2 = SandersSecond(deepcopy(newGraph), seq, no_cycles)
+newGraph2 = newGraph
 
-# print "\n=================Compromising Algorithm==========="
-# print "Number of nodes: ", graph_size
-# print "Time: ", time.time() - start_time, "seconds"
-# print "Dummy nodes needed:", len(newGraph2) - graph_size
-# cycles = entry_tarjan(deepcopy(newGraph2))
-# print ""
-# minimum_cycles = min_cycles(deepcopy(cycles))
-# print "Min. cycles:", minimum_cycles
-# count1 = count_dummy_nodes_necessary(deepcopy(minimum_cycles), graph_size)
-# count2 = count_nodes_necessary(deepcopy(minimum_cycles))
-# print "Total dummy nodes (min. cycles):", count1
-# print "Total nodes (min. cycles):", count2
+if len(SingleNodeCycles) != 0:
+	print "\n=================Compromising Algorithm==========="
+	print "Number of nodes: ", graph_size
+	print "Time: ", time.time() - start_time, "seconds"
+	print "Dummy nodes needed:", (len(newGraph2) + len(nodes_in_selected_comb)) - graph_size
+	original_cycles = original_cycles #redundant, just keep track
+	subcycles = entry_tarjan(deepcopy(newGraph2))
+	print ""
+	minimum_cycles = min_cycles(deepcopy(subcycles))
+	print "Min. cycles:", original_cycles, " + ", minimum_cycles
+	count1 = count_dummy_nodes_necessary(deepcopy(minimum_cycles), len(subG))
+	count2 = count_nodes_necessary(deepcopy(minimum_cycles)) + count_nodes_necessary(deepcopy(original_cycles))
+	print "Total dummy nodes (min. cycles):", count1
+	print "Total nodes (min. cycles):", count2
 
-# outfile = "outputs/output_compromising_" + str(getseed()) + "_" + str(graph_size) + ".txt"
-# with open(outfile, 'w') as text_file:
-# 	text_file.write("Unique dummy nodes: \t\t\t %s \nTotal dummy nodes: \t\t\t\t %s \nTotal nodes (min. cycles): \t\t %s \nTime: \t\t\t\t\t\t\t %s" % (str(len(newGraph2) - graph_size), count1, count2, str(time.time() - start_time)))
-# print ""
-# print "=================END======================"
+	outfile = "outputs/output_compromising_" + str(getseed()) + "_" + str(graph_size) + ".txt"
+	with open(outfile, 'w') as text_file:
+		text_file.write("Unique dummy nodes: \t\t\t %s \nTotal dummy nodes: \t\t\t\t %s \nTotal nodes (min. cycles): \t\t %s \nTime: \t\t\t\t\t\t\t %s" % (str(len(newGraph2) - len(subG)), count1, count2, str(time.time() - start_time)))
+	print ""
+	print "=================END======================"
+else:
+	print "ACHTUNG: No single node cycles!"	

@@ -11,9 +11,9 @@ from lcs import find_repeated_nodes, remove_repeated_nodes
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 9
+graph_size = 8
 seq = get_random_seq(graph_size)
-seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7], [7,5]]
+#seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7], [7,5]]
 #print "Original sequence:\n", seq
 G = get_graph(seq)
 #print "\n\nOriginal graph:\n", G

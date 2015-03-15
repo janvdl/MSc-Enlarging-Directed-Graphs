@@ -9,7 +9,7 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 12
+graph_size = 16
 seq = get_random_seq(graph_size)
 # seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7], [7,5]]
 #print "Original sequence:\n", seq

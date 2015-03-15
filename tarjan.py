@@ -36,7 +36,14 @@ def tarjan(s, v):
     return f
 
 def entry_tarjan(G_):
-    global G, cycles, marked
+    global G, cycles, marked, marked_stack, point_stack
+    G = []
+    cycles = []
+
+    point_stack = []
+    marked = []
+    marked_stack = []
+
     G = deepcopy(G_)
 
     marked = [False for x in xrange(0, len(G_))]
