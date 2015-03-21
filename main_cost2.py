@@ -1,6 +1,6 @@
 import time
 from generator import get_graph, get_random_seq, getseed
-from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph
+from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph, get_graphviz_names_from_graph_compromising
 from tarjan import entry_tarjan
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes, count_nodes, count_dummy_nodes_necessary, count_nodes_necessary
 # from augmentor_cost2 import augment, SandersSecond
@@ -26,7 +26,7 @@ def ContainsOnlySingleNodes(cycles):
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 8
+graph_size = 12
 seq = get_random_seq(graph_size)
 G = get_graph(seq)
 #print get_graphviz_names_from_graph(G, seq, graph_size)
@@ -52,14 +52,18 @@ for i in xrange(1, len(cycles)):
 #print (sorted(SingleNodeCycles, key=len))
 
 #Select some combination to continue with
+other_nodes = set([]) #Initialise other_nodes for later use
 if len(SingleNodeCycles) != 0:
 	selected_comb = list((sorted(SingleNodeCycles, key=len))[-1])
+	print "Selected combination:", selected_comb
 	original_cycles = deepcopy(selected_comb)
 	nodes_in_selected_comb = (set(sum(selected_comb, [])))
 	other_nodes = set(xrange(0, graph_size)) - nodes_in_selected_comb
+	print "Other nodes:", other_nodes
 	subseq = [seq[k] for k in other_nodes]
 	subG = get_graph(subseq)
 	subcycles = entry_tarjan(deepcopy(subG))
+	print get_graphviz_names_from_graph_compromising(subG, subseq, len(subG), list(other_nodes))
 else:
 	print "ACHTUNG: No single node cycles!"
 	subseq = seq
@@ -80,7 +84,6 @@ isolated_nodes = CGI[2]
 
 newGraph = augment(deepcopy(subG), subseq, subcycles[:])
 # print newGraph
-
 newGraph2 = newGraph
 
 if len(SingleNodeCycles) != 0:
@@ -105,3 +108,7 @@ if len(SingleNodeCycles) != 0:
 	print "=================END======================"
 else:
 	print "ACHTUNG: No single node cycles!"	
+
+#====================================
+
+print get_graphviz_names_from_graph_compromising(newGraph2, subseq, len(subG), list(other_nodes))
