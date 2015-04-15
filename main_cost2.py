@@ -107,7 +107,7 @@ if len(SingleNodeCycles) != 0:
 	print ""
 	print "=================END======================"
 else:
-	print "ACHTUNG: No single node cycles!"	
+	print "ACHTUNG: No single node cycles!"
 
 #====================================
 

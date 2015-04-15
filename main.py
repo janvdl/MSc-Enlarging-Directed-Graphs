@@ -9,12 +9,12 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 16
+graph_size = 12
 seq = get_random_seq(graph_size)
 # seq = [[11,9], [12,10], [10,8], [8,10], [10,11], [9,10], [7,6], [6,7], [7,5]]
 #print "Original sequence:\n", seq
 G = get_graph(seq)
-# print get_graphviz_names_from_graph(G, seq, graph_size)
+print get_graphviz_names_from_graph(G, seq, graph_size)
 
 #print "Finding CGI"
 CGI = find_all_types_nodes(G)

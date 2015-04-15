@@ -15,7 +15,7 @@ def small_cycles(cycles_):
 
     while (len(all_picked_cycles) < 1 and r >= 1):
         try:
-            #try except needed for 
+            #try except needed for
             r = r - 1
             all_picked_cycles = combination(cycles_, r)
         except:
@@ -41,7 +41,7 @@ def min_cycles(cycles_):
         all_picked_cycles = []
 
     while (len(all_picked_cycles) < 1 and r <= len(cycles_)):
-        #try except needed for 
+        #try except needed for
         r = r + 1
         all_picked_cycles = combination(cycles_, r)
 
@@ -74,7 +74,7 @@ def count_nodes_necessary(cycles_):
     nodes_necessary = 0
 
     for node in d:
-            nodes_necessary = nodes_necessary + d[node]
+        nodes_necessary = nodes_necessary + d[node]
 
     return nodes_necessary
 
@@ -104,7 +104,7 @@ def find_isogreedy_nodes(G_):
     for i in xrange(0, len(G_)):
         if len(G_[i]) == 0:
             greedy_nodes.append(i)
-    
+
     return greedy_nodes
 
 def find_isocharity_nodes(G_):
@@ -113,21 +113,21 @@ def find_isocharity_nodes(G_):
         for adjacency in node:
             if adjacency in charity_nodes:
                 charity_nodes.remove(adjacency)
-    
+
     return charity_nodes
-    
+
 def find_greedy_nodes(G_):
     isogreedy_nodes = find_isogreedy_nodes(G_)
     isolated_nodes = find_isolated_nodes(G_)
-    
+
     return list(set(isogreedy_nodes) - set(isolated_nodes))
-    
+
 def find_charity_nodes(G_):
     isocharity_nodes = find_isocharity_nodes(G_)
     isolated_nodes = find_isolated_nodes(G_)
-    
+
     return list(set(isocharity_nodes) - set(isolated_nodes))
-        
+
 def find_isolated_nodes(G_):
     isolated_nodes = []
     greedy_nodes = find_isogreedy_nodes(G_)
@@ -135,7 +135,7 @@ def find_isolated_nodes(G_):
     for node in greedy_nodes:
         if node in charity_nodes:
             isolated_nodes.append(node)
-            
+
     return isolated_nodes
 
 # Runs in O(n^2)
