@@ -6,17 +6,27 @@ from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_typ
 from augmentor import SandersFirst, SandersSecond
 from copy import deepcopy
 
-# for i in xrange(8, 20):
-# 	graph_size = i
-# 	seq = get_random_seq(graph_size)
-# 	G = get_graph(seq)
-# 	cycles = entry_tarjan(deepcopy(G))
-#  	print i, len(cycles)#, seq
+# s = ""
+# for i in xrange(8, 21):
+#     graph_size = i
+#     seq = get_random_seq(graph_size)
+#     G = get_graph(seq)
+#     cycles = entry_tarjan(deepcopy(G))
+#     s = s + " " + str(i) + " " + str(len(cycles)) + "\n"
+#     print s
+# outfile = "outputs/cyclegrowth_range_" + str(getseed()) + ".txt"
+# with open(outfile, 'w') as text_file:
+#     text_file.write("%s" % s)
 
-
+s = ""
 i = 27
 graph_size = i
 seq = get_random_seq(graph_size)
 G = get_graph(seq)
 cycles = entry_tarjan(deepcopy(G))
-print i, len(cycles)#, seq
+s = s + " " + str(i) + " " + str(len(cycles)) + "\n"
+print s
+
+outfile = "outputs/cyclegrowth_single_" + str(getseed()) + ".txt"
+with open(outfile, 'w') as text_file:
+    text_file.write("%s" % s)

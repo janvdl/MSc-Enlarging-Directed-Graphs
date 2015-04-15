@@ -1,7 +1,5 @@
 import random
 from random import randint
-#random.seed(170888264)
-#random.seed(923462908)
 
 number_of_nodes = 0
 avg_min = 9
@@ -14,6 +12,8 @@ def getseed():
     return 123789456
     #return 170888264
     #return 923462908
+    #return 482367498
+    #return 532499987
 
 ##Generate Single Shoe Pair
 def get_shoe_pair():
