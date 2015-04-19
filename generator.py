@@ -9,9 +9,9 @@ sd_max = 2
 shoes = []
 
 def getseed():
-    return 123789456
+    #return 123789456
     #return 170888264
-    #return 923462908
+    return 923462908
     #return 482367498
     #return 532499987
 
@@ -60,6 +60,3 @@ def get_matrix(seq):
                 if seq[i][0] == seq[j][1]:
                     G[i][j] = 1
     return G
-
-# for line in get_matrix(get_random_seq(12)):
-#     print line

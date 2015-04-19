@@ -1,7 +1,6 @@
 from math import *
 
 def augment(G):
-	#print 'augment'
 	G = destroyDuplicates(G)
 
 	#Count the row and column totals
@@ -56,13 +55,9 @@ def augment(G):
 		G_new[first][mid] = 1
 		G_new[mid][last] = 1
 
-		#print first,mid
-		#print mid, last
-
 	return G_new
 
 def destroyDuplicates(G):
-	#print 'destroyDuplicates'
 	#Count the row and column totals
 	row_array = countRowColTotals(G)[0]
 	col_array = countRowColTotals(G)[1]
@@ -78,15 +73,12 @@ def destroyDuplicates(G):
 			col_indices_counts[i] = col_array[i]
 
 	for key in row_indices_counts:
-		#print 'row eval key', key
 		while row_indices_counts[key] > 1:
 			for i in reversed(xrange(0, len(G))):
-				#print 'row eval index G[', key, '][', i, ']'
 				if G[key][i] == 1:
 					G[key][i] = 0
 					row_indices_counts[key] = row_indices_counts[key] - 1
 					extraZeroesNeeded += 1
-					#print 'G[', key, '][', i, '] has been set to 0'
 					break
 
 
@@ -105,35 +97,25 @@ def destroyDuplicates(G):
 			col_indices_counts[i] = col_array[i]
 
 	for key in col_indices_counts:
-		#print 'col eval key', key
 		while col_indices_counts[key] > 1:
 			for i in reversed(xrange(0, len(G))):
-				#print 'col eval index G[', i, '][', key, ']'
 				if G[i][key] == 1:
 					G[i][key] = 0
 					col_indices_counts[key] = col_indices_counts[key] - 1
 					extraZeroesNeeded += 1
-					#print 'G[', i, '][', key, '] has been set to 0'
 					break
-
-	# #print row_indices_counts
-	# #print col_indices_counts
-	# #print G
-	#print 'Zeroes needed after duplicates:', extraZeroesNeeded
 	return expandGraph(G, extraZeroesNeeded)
 
 def expandGraph(G, numberOfNodesExtra):
-	#print 'expandGraph'
 	#Create new bigger matrix and copy the old matrix into it
 	G_new = [[0 for x in xrange(0, len(G) + numberOfNodesExtra)] for x in xrange(0, len(G) + numberOfNodesExtra)]
 	for i in xrange(0, len(G)):
-		for j in xrange(0, len(G)):	
+		for j in xrange(0, len(G)):
 			G_new[i][j] = G[i][j]
 
 	return G_new
 
 def countRowColTotals(G):
-	#print 'countRowColTotals'
 	#Count the row and column totals
 	row_array = [0 for x in xrange(0, len(G))]
 	col_array = [0 for x in xrange(0, len(G))]
@@ -147,7 +129,6 @@ def countRowColTotals(G):
 	return [row_array, col_array]
 
 def getSomeNode(G, row_array, col_array, exclude_list):
-	#print 'getSomeNode'
 	r_arr = row_array[:]
 	c_arr = col_array[:]
 	min_ = 99999999;

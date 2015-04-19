@@ -101,13 +101,10 @@ def augment(G, seq, cycles, dis, no_in, no_out):
 
         if mid != None:
             if first == None and last == None:
-                #create dummy node dummy0, mirror of mid
                 dummy0 = [seq[mid][1], seq[mid][0]]
                 seq.append(dummy0)
 
-                #create path mid -> dummy0 -> mid in newGraph
                 dummy0_nodenumber = len(newGraph)
-                newGraph.append([]) #append one placeholder
                 newGraph[mid].append(dummy0_nodenumber)
                 newGraph[dummy0_nodenumber].append(mid)
                 print "Isolated only:", mid, dummy0_nodenumber
@@ -120,7 +117,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                         first = availableNodes[0]
                         usedNodes.append(first)
                     else:
-                        first = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                        first = cycleNodes[0]
                 if last == None:
                     availableNodes = list(set(cycleNodes) - set(usedNodes))
                     if first in availableNodes:
@@ -129,18 +126,16 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                         last = availableNodes[0]
                         usedNodes.append(last)
                     else:
-                        last = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                        last = cycleNodes[0]
 
-                #create nodes dummy1 and dummy2
                 dummy1 = [seq[mid][1], seq[first][0]]
                 dummy2 = [seq[last][1], seq[mid][0]]
                 seq.append(dummy1)
                 seq.append(dummy2)
 
-                #create path first -> dummy1 -> mid -> dummy2 -> last in newGraph
                 dummy1_nodenumber = len(newGraph)
                 dummy2_nodenumber = len(newGraph) + 1
-                newGraph.append([]) #append two placeholders
+                newGraph.append([])
                 newGraph.append([])
                 newGraph[first].append(dummy1_nodenumber)
                 newGraph[dummy1_nodenumber].append(mid)
@@ -156,7 +151,7 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                     first = availableNodes[0]
                     usedNodes.append(first)
                 else:
-                    first = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                    first = cycleNodes[0]
             if last == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
                 if first in availableNodes:
@@ -165,23 +160,17 @@ def augment(G, seq, cycles, dis, no_in, no_out):
                     last = availableNodes[0]
                     usedNodes.append(last)
                 else:
-                    last = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                    last = cycleNodes[0]
 
-            #create node dummy3
             dummy3 = [seq[last][1], seq[first][0]]
             print "Dummy 3:", dummy3
             seq.append(dummy3)
 
-            #create path first -> dummy3 -> last in newGraph
             dummy3_nodenumber = len(newGraph)
-            newGraph.append([]) #append a placeholder
+            newGraph.append([])
             newGraph[first].append(dummy3_nodenumber)
             newGraph[dummy3_nodenumber].append(last)
             print first, mid, last, " & dummy:", dummy3_nodenumber
-        # CGI = find_all_types_nodes(G)
-        # no_out = CGI[1]
-        # no_in = CGI[0]
-        # dis = CGI[2]
     return newGraph
 
 def SandersSecond(G, seq, no_cycles):

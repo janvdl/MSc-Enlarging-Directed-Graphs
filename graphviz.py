@@ -13,8 +13,6 @@ numbers = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9',
             'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17',
             'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25']
 
-#            'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy',
-
 def get_graphviz_names(seq):
     names = names_us
     number_of_nodes = len(seq)
@@ -59,11 +57,10 @@ def get_graphviz_from_matrix(G):
                 s = s + 'v' + str(i) + '->' + 'v' + str(j) + ';'
     s = s + '}'
 
-    return s    
+    return s
 
 def get_graphviz_names_from_graph(G, seq, length):
     names = names_us
-    # s = 'digraph G {size="5"; center=true;{'
     s = 'digraph G {center=true;{'
     for i in xrange(0, len(G)):
         name_i = names[i]
@@ -98,7 +95,6 @@ def get_graphviz_names_from_graph_compromising(G, seq, length, other_nodes):
         names_2[i] = names[other_nodes[i]]
     names = names_2
     print "Names:", names
-    # s = 'digraph G {size="5"; center=true;{'
     s = 'digraph G {center=true;{'
     for i in xrange(0, len(G)):
         name_i = names[i]
@@ -125,3 +121,15 @@ def get_graphviz_names_from_graph_compromising(G, seq, length, other_nodes):
     #END Rank nodes
     s = s + '}}}'
     return s
+
+def get_cycle_latex(cycles):
+    names = deepcopy(names_us)
+    for cycle in cycles:
+        s = "\\item{"
+        for node in cycle:
+            if cycle.index(node) == len(cycle) - 1:
+                s = s + "(" + str(node + 1) + ": " + names[node] + ")"
+            else:
+                s = s + "(" + str(node + 1) + ": " + names[node] + ")" + " $\\rightarrow$ "
+        s = s + "}"
+        print s

@@ -6,20 +6,14 @@ import operator
 from copy import deepcopy
 
 def augment(G, seq, cycles):
-    cycleNodesKeeper = sum(cycles, [])    
+    cycleNodesKeeper = sum(cycles, [])
     node_scores = evaluate(G, cycles)
-    #print node_scores
     while (situation_matrix(find_all_types_nodes(G)) != [0, 0, 0, 0]):
         components = hopcroft(G)
-        #print components
         for component in components:
-            #print "=========="
-            #print "Component:", component
             #Update the situation matrix after every component has been updated
-            #It's possible that some isolated nodes were already taken care of, etc.            
+            #It's possible that some isolated nodes were already taken care of, etc.
             CGI_nodes = find_all_types_nodes(G)
-            #print "CGI matrix:", situation_matrix(find_all_types_nodes(G))
-            #print "CGI nodes:", CGI_nodes
             greedy_nodes = CGI_nodes[1]
             charity_nodes = CGI_nodes[0]
             isolated_nodes = CGI_nodes[2]
@@ -30,7 +24,6 @@ def augment(G, seq, cycles):
             greedy_component = []
             charity_component = []
             isolated_component = []
-            #nocycles_component = []
 
             for node in charity_nodes:
                 if node in component:
@@ -46,13 +39,7 @@ def augment(G, seq, cycles):
             isolated_component = isolated_nodes
             component_matrix[2] = matrix[2]
 
-#            for node in no_cycles:
-#                if node in component:
-#                    nocycles_component.append(node)
-#                    component_matrix[3] = 1
-
             sub_matrix = component_matrix[0:3]
-            #print "Sub matrix:", sub_matrix
 
             if sub_matrix == [0, 0, 1]:
                 #print "Case 1 - Isolated node only"
@@ -66,8 +53,6 @@ def augment(G, seq, cycles):
                 G.append([])
                 G[dummy_node].append(iso_node)
                 G[iso_node].append(dummy_node)
-                #print "Connected:", (iso_node + 1), "to dummy", (dummy_node + 1)
-                ##print "Case 1 completion:", G
             elif sub_matrix == [0, 1, 0]:
                 #print "Case 2 - Greedy node only"
                 greedy_node = greedy_component.pop()
@@ -100,8 +85,6 @@ def augment(G, seq, cycles):
                 G.append([])
                 G[greedy_node].append(dummy_node)
                 G[dummy_node].append(some_node)
-                #print "Connected:", (greedy_node + 1), "to dummy", (dummy_node + 1), "to", (some_node + 1)
-                ##print "Case 2 completion:", G
             elif sub_matrix == [1, 0, 0]:
                 #print "Case 3 - Charity node only"
                 charity_node = charity_component.pop()
@@ -134,8 +117,6 @@ def augment(G, seq, cycles):
                 G.append([])
                 G[some_node].append(dummy_node)
                 G[dummy_node].append(charity_node)
-                #print "Connected:", (some_node + 1), "to dummy", (dummy_node + 1), "to", (charity_node + 1)
-                ##print "Case 3 completion:", G
             elif sub_matrix == [0, 1, 1]:
                 #print "Case 4 - Iso + Greedy"
                 iso_node = isolated_component.pop()
@@ -178,9 +159,6 @@ def augment(G, seq, cycles):
                 G[dummy1_node].append(iso_node)
                 G[iso_node].append(dummy2_node)
                 G[dummy2_node].append(some_node)
-
-                #print "Connected:", (greedy_node + 1), "to dummy", (dummy1_node + 1), "to", (iso_node + 1), "to dummy", (dummy2_node + 1), "to", (some_node + 1)
-                ##print "Case 4 completion:", G
             elif sub_matrix == [1, 0, 1]:
                 #print "Case 5 - Iso + Charity"
                 iso_node = isolated_component.pop()
@@ -206,7 +184,7 @@ def augment(G, seq, cycles):
                         if scored_node in some_nodes:
                             some_node = scored_node
                     #END Node scoring
-                    
+
                 some_seq = seq[some_node]
 
                 dummy1 = [iso_seq[1], some_seq[0]]
@@ -223,8 +201,6 @@ def augment(G, seq, cycles):
                 G[dummy1_node].append(iso_node)
                 G[iso_node].append(dummy2_node)
                 G[dummy2_node].append(charity_node)
-                #print "Connected:", (some_node + 1), "to dummy", (dummy1_node + 1), "to", (iso_node + 1), "to dummy", (dummy2_node + 1), "to", (charity_node + 1)
-                ##print "Case 5 completion:", G
             elif sub_matrix == [1, 1, 0]:
                 #print "Case 6 - Charity + Greedy"
                 charity_node = charity_component.pop()
@@ -240,8 +216,6 @@ def augment(G, seq, cycles):
                 G.append([])
                 G[greedy_node].append(dummy_node)
                 G[dummy_node].append(charity_node)
-                #print "Connected:", (greedy_node + 1), "to dummy", (dummy_node + 1), "to", (charity_node + 1)
-                ##print "Case 6 completion:", G
             elif sub_matrix == [1, 1, 1]:
                 #print "Case 7 - Charity + Greedy + Iso"
                 iso_node = isolated_component.pop()
@@ -267,16 +241,11 @@ def augment(G, seq, cycles):
                 G[dummy1_node].append(iso_node)
                 G[iso_node].append(dummy2_node)
                 G[dummy2_node].append(charity_node)
-                #print "Connected:", (greedy_node + 1), "to dummy", (dummy1_node + 1), "to", (iso_node + 1), "to dummy", (dummy2_node + 1), "to", (charity_node + 1)
-                ##print "Case 7 completion:", G
 
     #Handle bridge nodes, if any
     cycles = sum(entry_tarjan(deepcopy(G)), [])
     nodes = list(xrange(0, len(G)))
     no_cycles = list(set(nodes) - set(cycles))
-    #print "===== second pass ====="
-    #print cycles 
-    #print no_cycles
 
     while len(no_cycles) > 0:
         x = no_cycles[0]
@@ -308,8 +277,6 @@ def augment(G, seq, cycles):
         G[D_nodenumber].append(E)
         no_cycles.pop(0)
 
-        #print "Second pass connected:", B, "to", D_nodenumber, "to", E
-
         cycles = sum(entry_tarjan(deepcopy(G)), [])
         nodes = list(xrange(0, len(G)))
         no_cycles = list(set(nodes) - set(cycles))
@@ -322,10 +289,6 @@ def situation_matrix(CGI_nodes):
     charity_nodes = CGI_nodes[0]
     isolated_nodes = CGI_nodes[2]
 
-#    cycles = sum(entry_tarjan(deepcopy(G)), [])
-#    nodes = list(xrange(0, len(G)))
-#    no_cycles = list(set(nodes) - set(cycles))
-
     C_ = 0
     G_ = 0
     I_ = 0
@@ -336,7 +299,6 @@ def situation_matrix(CGI_nodes):
         G_ = 1
     if len(isolated_nodes) > 0:
         I_ = 1
-#    if len(no_cycles) > 0:
     N_ = 0
 
     matrix = []

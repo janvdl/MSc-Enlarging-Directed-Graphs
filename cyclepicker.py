@@ -1,7 +1,7 @@
 from copy import deepcopy
 from rcomb import combination, built_in_rcombs
 
-cycles          = []    #all cycles of nodes
+cycles          = []
 picked_cycles   = []
 contained_nodes = []
 spill_nodes     = []
@@ -15,7 +15,6 @@ def small_cycles(cycles_):
 
     while (len(all_picked_cycles) < 1 and r >= 1):
         try:
-            #try except needed for
             r = r - 1
             all_picked_cycles = combination(cycles_, r)
         except:
@@ -31,8 +30,6 @@ def small_cycles(cycles_):
             index = i
     return all_picked_cycles[index]
 
-# def rcombs(cycles_, r):
-
 def min_cycles(cycles_):
     r = 0
     all_picked_cycles = combination(cycles_, r)
@@ -41,7 +38,6 @@ def min_cycles(cycles_):
         all_picked_cycles = []
 
     while (len(all_picked_cycles) < 1 and r <= len(cycles_)):
-        #try except needed for
         r = r + 1
         all_picked_cycles = combination(cycles_, r)
 

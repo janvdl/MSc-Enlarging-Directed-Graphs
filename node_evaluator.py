@@ -9,7 +9,6 @@ def evaluate(G, cycles):
 		node_dict[node] = [0,0,0] #[Incoming, Outgoing, In Cycle?]
 
 	for node in xrange(0, len(G)):
-		#print "Evaluating node", node
 		if len(G[node]) > 0:
 			if node in node_dict:
 				node_dict[node][1] = 1
@@ -18,7 +17,6 @@ def evaluate(G, cycles):
 			else:
 				node_dict[node] = [1,0,0]
 		for adjacency in G[node]:
-			#print "Evaluating node", node, "adjacency", adjacency
 			if adjacency in node_dict:
 				node_dict[adjacency][0] = 1
 			else:

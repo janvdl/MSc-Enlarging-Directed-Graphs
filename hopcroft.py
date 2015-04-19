@@ -8,7 +8,7 @@ def dfs(G, v):
     S = []
     component = []
     nodes_in_components = sum(components, [])
-    
+
     if v not in nodes_in_components:
         S.append(v)
         while (len(S) > 0):
@@ -20,7 +20,7 @@ def dfs(G, v):
                     S.append(w)
 
         components.append(component)
-        
+
 def hopcroft(G):
     global visited
     for i in xrange(0, len(G)):
@@ -28,14 +28,6 @@ def hopcroft(G):
         if visited[i] == False:
             dfs(G, i)
 
-    # comp_ = deepcopy(components)
-            
-    # for i in xrange(0, len(comp_)):
-    #     for j in xrange(0, len(comp_)):
-    #         if i != j and (set(comp_[i]) >= set(comp_[j])):
-    #             if comp_[j] in components:
-    #                 components.remove(comp_[j])
-        
     return connected_components(components)
 
 def connected_components(l):
@@ -53,7 +45,7 @@ def connected_components(l):
                 if len(first.intersection(set(r)))>0:
                     first |= set(r)
                 else:
-                    rest2.append(r)     
+                    rest2.append(r)
             rest = rest2
 
         out.append(list(first))

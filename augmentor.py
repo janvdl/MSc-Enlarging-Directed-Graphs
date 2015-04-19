@@ -31,8 +31,7 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
                     first = availableNodes[0]
                     usedNodes.append(first)
                 else:
-                    ##print cycleNodes
-                    first = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                    first = cycleNodes[0]
             if last == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
                 if first in availableNodes:
@@ -41,24 +40,21 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
                     last = availableNodes[0]
                     usedNodes.append(last)
                 else:
-                    last = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                    last = cycleNodes[0]
 
-            #create nodes dummy1 and dummy2
             dummy1 = [seq[mid][1], seq[first][0]]
             dummy2 = [seq[last][1], seq[mid][0]]
             seq.append(dummy1)
             seq.append(dummy2)
 
-            #create path first -> dummy1 -> mid -> dummy2 -> last in newGraph
             dummy1_nodenumber = len(newGraph)
             dummy2_nodenumber = len(newGraph) + 1
-            newGraph.append([]) #append two placeholders
+            newGraph.append([])
             newGraph.append([])
             newGraph[first].append(dummy1_nodenumber)
             newGraph[dummy1_nodenumber].append(mid)
             newGraph[mid].append(dummy2_nodenumber)
             newGraph[dummy2_nodenumber].append(last)
-            #print "First pass connected:", (first + 1), "to", (mid + 1), "to", (last + 1), "via dummy nodes", (dummy1_nodenumber + 1), "and", (dummy2_nodenumber + 1)
         else:
             if first == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
@@ -68,7 +64,7 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
                     first = availableNodes[0]
                     usedNodes.append(first)
                 else:
-                    first = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                    first = cycleNodes[0]
             if last == None:
                 availableNodes = list(set(cycleNodes) - set(usedNodes))
                 if first in availableNodes:
@@ -77,23 +73,15 @@ def SandersFirst(G, seq, cycles, dis, no_in, no_out):
                     last = availableNodes[0]
                     usedNodes.append(last)
                 else:
-                    last = cycleNodes[0] #= cycleNodes[randint(0, len(cycleNodes))]
+                    last = cycleNodes[0]
 
-            #create node dummy3
             dummy3 = [seq[last][1], seq[first][0]]
-            ##print "Dummy 3:", dummy3
             seq.append(dummy3)
 
-            #create path first -> dummy3 -> last in newGraph
             dummy3_nodenumber = len(newGraph)
-            newGraph.append([]) #append a placeholder
+            newGraph.append([])
             newGraph[first].append(dummy3_nodenumber)
             newGraph[dummy3_nodenumber].append(last)
-            ##print first, mid, last, " & dummy:", dummy3_nodenumber
-            #print "First pass connected:", (first + 1), "to", (last + 1), "via dummy node", (dummy3_nodenumber + 1)
-        # no_out = find_greedy_nodes(newGraph)
-        # no_in = find_charity_nodes(newGraph)
-        # dis = find_isolated_nodes(newGraph)
     return newGraph
 
 def SandersSecond(G, seq, no_cycles):
@@ -127,7 +115,4 @@ def SandersSecond(G, seq, no_cycles):
         newGraph[B].append(D_nodenumber)
         newGraph[D_nodenumber].append(E)
         no_cycles.pop(0)
-
-        #print "Second pass connected:", B, "to", D_nodenumber, "to", E
-
     return newGraph

@@ -13,14 +13,11 @@ graph_size = 40
 seq = get_random_seq(graph_size)
 G = get_matrix(seq)
 print get_graphviz_from_matrix(G)
-#print G
 G_ = augment(deepcopy(G))
-#print G_
 print get_graphviz_from_matrix(G_)
 
 print "\n=================Matrix================="
 print "Number of nodes: ", graph_size
-#print "Number of cycles: ", len(remove)
 print "Time: ", time.time() - start_time, "seconds"
 print "Dummy nodes needed:", len(G_) - graph_size
 print "All nodes necessary:", len(G_)
