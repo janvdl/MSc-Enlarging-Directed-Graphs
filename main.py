@@ -1,6 +1,6 @@
 import time
 from generator import get_graph, get_random_seq, getseed
-from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph
+from graphviz import get_graphviz, get_graphviz_names, get_graphviz_from_graph, get_graphviz_names_from_graph, get_cycle_latex
 from tarjan import entry_tarjan
 from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_types_nodes, count_nodes, count_dummy_nodes_necessary, count_nodes_necessary
 from augmentor import SandersFirst, SandersSecond
@@ -9,8 +9,9 @@ from copy import deepcopy
 start_time = time.time()
 
 #Generate a random graph or specify it
-graph_size = 12
+graph_size = 4
 seq = get_random_seq(graph_size)
+seq = [[5,1],[5,5],[3,5],[4,5]]
 G = get_graph(seq)
 print get_graphviz_names_from_graph(G, seq, graph_size)
 
@@ -21,6 +22,7 @@ charity_nodes = CGI[0]
 isolated_nodes = CGI[2]
 
 cycles = entry_tarjan(deepcopy(G))
+#print get_cycle_latex(deepcopy(cycles))
 
 #Apply Sanders's first pass algorithm
 newGraph = SandersFirst(deepcopy(G), seq, cycles[:], isolated_nodes, charity_nodes, greedy_nodes)
@@ -32,6 +34,7 @@ no_cycles = list(set(new_nodes) - set(cycles))
 
 #Apply Sanders's second pass algorithm
 newGraph2 = SandersSecond(deepcopy(newGraph), seq, no_cycles)
+print get_graphviz_names_from_graph(G, seq, graph_size)
 
 print "\n=================Sanders================="
 print "Number of nodes: ", graph_size

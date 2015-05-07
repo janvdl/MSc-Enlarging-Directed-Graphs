@@ -48,13 +48,24 @@ def get_graphviz_from_graph(G):
 
     return s
 
-def get_graphviz_from_matrix(G):
+def get_graphviz_from_matrix(G, seq, length):
+    names = deepcopy(names_us)
     s = 'digraph G {'
     for i in xrange(0, len(G)):
-        s = s + 'v' + str(i) + ';'
+        name_i = names[i]
+        if i >= length:
+            name_i = "Dummy"
+
+        s = s + '"' + str(i + 1) + ": " + name_i + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']";\n'
+
         for j in xrange(0, len(G)):
+            name_j = names[j]
+            if j >= length:
+                name_j = "Dummy"
             if G[i][j] == 1:
-                s = s + 'v' + str(i) + '->' + 'v' + str(j) + ';'
+                s = s + '"' + str(i + 1) + ": " + name_i + ' [' + str(seq[i][0])+ ',' + str(seq[i][1]) + ']"' \
+                + '->' + '"' + str(j + 1) + ": " + name_j + ' [' + str(seq[j][0])+ ',' + str(seq[j][1]) + ']";\n'
+
     s = s + '}'
 
     return s
@@ -123,7 +134,7 @@ def get_graphviz_names_from_graph_compromising(G, seq, length, other_nodes):
     return s
 
 def get_cycle_latex(cycles):
-    names = deepcopy(names_us)
+    names = deepcopy(names_za)
     for cycle in cycles:
         s = "\\item{"
         for node in cycle:

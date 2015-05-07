@@ -8,13 +8,34 @@ from copy import deepcopy
 
 start_time = time.time()
 
+# def MatrixToList(G):
+#     adj = [[] for x in xrange(0, len(G))]
+#     for i in xrange(0, len(G[0])):
+#         for j in xrange(0, len(G[0])):
+#             if G[i][j] == 1:
+#                 adj[i].append(j)
+#     return adj
+
+# def CompressCycle(cyc_to_compress, length):
+#     for cycle in cyc_to_compress:
+#         for node in cycle:
+#             if node >= length:
+#                 node = node * (-1)
+#     print cyc_to_compress
+
 #Generate a random graph or specify it
-graph_size = 40
+graph_size = 20
 seq = get_random_seq(graph_size)
+#seq = [[11,9],[8,11],[10,8],[9,10],[10,11],[7,10]]
 G = get_matrix(seq)
-print get_graphviz_from_matrix(G)
-G_ = augment(deepcopy(G))
-print get_graphviz_from_matrix(G_)
+#print G
+#print get_graphviz_from_matrix(G, seq, graph_size)
+results = augment(deepcopy(G), seq)
+G_ = results[0]
+newseq = results[1]
+print newseq
+print len(G_), len(newseq)
+#print get_graphviz_from_matrix(G_, newseq, graph_size)
 
 print "\n=================Matrix================="
 print "Number of nodes: ", graph_size

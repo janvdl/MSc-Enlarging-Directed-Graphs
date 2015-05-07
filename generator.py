@@ -10,8 +10,8 @@ shoes = []
 
 def getseed():
     #return 123789456
-    #return 170888264
-    return 923462908
+    return 170888264
+    #return 923462908
     #return 482367498
     #return 532499987
 
