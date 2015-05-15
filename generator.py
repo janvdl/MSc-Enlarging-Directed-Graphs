@@ -10,10 +10,31 @@ shoes = []
 
 def getseed():
     #return 123789456
-    return 170888264
+    #return 170888264
     #return 923462908
     #return 482367498
     #return 532499987
+    #=====For appendices=====
+    #return 586015916
+    #return 273100389
+    #return 513577387
+    # return 912644420
+    #return 422223344
+    # return 550095080
+    # return 444662587
+    # return 664788481
+    # return 461731130
+    # return 735161101
+    # return 475887106
+    # return 664469990
+    # return 965309708
+    # return 456777039
+    # return 222892396
+    # return 809723839
+    # return 508456853
+    # return 393236722
+    # return 568828692
+    return 346854015
 
 ##Generate Single Shoe Pair
 def get_shoe_pair():

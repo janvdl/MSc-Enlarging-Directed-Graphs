@@ -1,0 +1,4 @@
+Unique dummy nodes: 			 20 
+Total dummy nodes: 				 20 
+Total nodes (min. cycles): 		 38 
+Time: 							 1.01799988747

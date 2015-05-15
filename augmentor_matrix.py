@@ -49,9 +49,9 @@ def augment(G, seq):
 	#zero_cols_index.reverse()
 	dummies_index.reverse()
 
-	print zero_rows_index
-	print zero_cols_index
-	print dummies_index
+	# print zero_rows_index
+	# print zero_cols_index
+	# print dummies_index
 
 	#While there's some node without an incoming/outgoing edge
 	while (len(zero_rows_index) > 0 or len(zero_cols_index) > 0 or len(dummies_index) > 0):
@@ -74,7 +74,7 @@ def augment(G, seq):
 		#Create the connection
 		G_new[first][mid] = 1
 		G_new[mid][last] = 1
-		print "creating connection", first, mid, last
+		# print "creating connection", first, mid, last
 		newseq[first] = seq[first]
 		newseq[last] = seq[last]
 		newseq[mid] = [seq[last][1], seq[first][0]]
