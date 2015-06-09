@@ -134,7 +134,7 @@ def get_graphviz_names_from_graph_compromising(G, seq, length, other_nodes):
     return s
 
 def get_cycle_latex(cycles):
-    names = deepcopy(names_za)
+    names = deepcopy(names_us)
     for cycle in cycles:
         s = "\\item{"
         for node in cycle:

@@ -6,7 +6,7 @@ from cyclepicker import min_cycles, small_cycles, find_spill_nodes, find_all_typ
 from augmentor import SandersFirst, SandersSecond
 from copy import deepcopy
 
-for i in xrange(8, 20, 2):
+for i in xrange(8, 10, 2):
 	start_time = time.time()
 
 	#Generate a random graph or specify it
@@ -14,7 +14,7 @@ for i in xrange(8, 20, 2):
 	seq = get_random_seq(graph_size)
 	#seq = [[11,9],[8,11],[10,8],[9,10],[10,11],[7,10]]
 	G = get_graph(seq)
-	#print get_graphviz_names_from_graph(G, seq, graph_size)
+	# print get_graphviz_names_from_graph(G, seq, graph_size)
 
 	#print "Finding CGI"
 	CGI = find_all_types_nodes(G)
@@ -23,19 +23,22 @@ for i in xrange(8, 20, 2):
 	isolated_nodes = CGI[2]
 
 	cycles = entry_tarjan(deepcopy(G))
-	#print get_cycle_latex(deepcopy(cycles))
+	print get_cycle_latex(deepcopy(cycles))
 
 	#Apply Sanders's first pass algorithm
 	newGraph = SandersFirst(deepcopy(G), seq, cycles[:], isolated_nodes, charity_nodes, greedy_nodes)
+	# print get_graphviz_names_from_graph(newGraph, seq, graph_size)
 
 	#Before applying Sanders's second pass algorithm, find out which nodes are not in cycles after first pass
 	cycles = sum(entry_tarjan(deepcopy(newGraph)), [])
 	new_nodes = list(xrange(0, len(newGraph)))
 	no_cycles = list(set(new_nodes) - set(cycles))
+	print "new cycles:"
+	print get_cycle_latex(deepcopy(entry_tarjan(deepcopy(newGraph))))
 
 	#Apply Sanders's second pass algorithm
 	newGraph2 = SandersSecond(deepcopy(newGraph), seq, no_cycles)
-	#print get_graphviz_names_from_graph(G, seq, graph_size)
+	# print get_graphviz_names_from_graph(newGraph2, seq, graph_size)
 
 	print "\n=================Sanders================="
 	print "Number of nodes: ", graph_size

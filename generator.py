@@ -19,7 +19,7 @@ def getseed():
     #return 273100389
     #return 513577387
     # return 912644420
-    #return 422223344
+    return 422223344
     # return 550095080
     # return 444662587
     # return 664788481
@@ -34,7 +34,7 @@ def getseed():
     # return 508456853
     # return 393236722
     # return 568828692
-    return 346854015
+    # return 346854015
 
 ##Generate Single Shoe Pair
 def get_shoe_pair():
