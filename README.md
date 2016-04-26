@@ -1,6 +1,6 @@
-My M.Sc. - Enlarging directed graphs to ensure all nodes are contained in cycles
+Enlarging directed graphs to ensure all nodes are contained in cycles
 ===
-Python source code for my thesis on graph enlargement. I hope someone may find my work useful in the future.
+Python source code for my M.Sc. thesis on graph enlargement. 
 
 Licence
 ===
